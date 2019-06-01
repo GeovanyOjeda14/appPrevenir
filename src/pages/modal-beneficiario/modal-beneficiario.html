@@ -1,0 +1,114 @@
+<!--
+  Generated template for the ModalBeneficiarioPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+      <ion-buttons start>
+          <button ion-button icon-only (click)="close()">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-buttons>
+
+    <ion-title >{{info.nombres}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+<!-- ------------------------------------------MODAL BENEFICIARIO --------------------------------------- -->
+
+<div *ngIf="!mascota">
+
+    <div class="img">
+        <img *ngIf="!base64Image" id="userImg" [src]="info.avatar" alt="nd" (click)="verImg(info.avatar)">
+        <img *ngIf="base64Image" id="userImg" [src]="base64Image | youtube" alt="nd">
+        <ion-fab >
+          <button ion-fab mini (click)="openGalery()">
+            <ion-icon name="cloud-upload"></ion-icon>
+          </button>
+        </ion-fab>
+      </div>
+      <button *ngIf="base64Image" icon-left ion-button block round (click)="guardarAvatar()">
+        <ion-icon name="archive"></ion-icon>
+        Guardar Avatar</button>
+
+<h1 class="h1"></h1>
+<div class="card">
+      <ion-card>
+        <ion-card-content>
+          <h2><strong>Nombres : </strong> {{info.nombre}} </h2>
+          <h2><strong>Apellidos : </strong> {{info.apellidos}} </h2>
+          <h2><strong>Fecha Nacimiento : </strong> {{info.fecha}} </h2>
+          <h2><strong>Patentesco : </strong> {{info.parentesco}}</h2>
+          <h2><strong>No. Contacto : </strong> {{info.telefono}}</h2>
+          <br>
+          
+        </ion-card-content>
+      </ion-card>
+      </div>
+
+      <button ion-button color="energized" icon-left round block (click)="close()">
+          <ion-icon name="arrow-round-back" ></ion-icon>
+        Volver</button>
+
+      </div>
+
+
+      <!-- --------------------------------------- MODAL MASCOTA --------------------------------------- -->
+
+
+      <div *ngIf="mascota">
+
+
+          <div class="img">
+              <img *ngIf="!base64Image" id="userImg" [src]="info.avatar" alt="nd" (click)="verImg(info.avatar)">
+              <img *ngIf="base64Image" id="userImg" [src]="base64Image | youtube" alt="nd">
+              <ion-fab >
+                <button ion-fab mini (click)="openGalery()">
+                  <ion-icon name="cloud-upload"></ion-icon>
+                </button>
+              </ion-fab>
+            </div>
+            <button *ngIf="base64Image" icon-left ion-button block round (click)="guardarAvatarMascota()">
+              <ion-icon name="archive"></ion-icon>
+              Guardar Avatar</button>
+      
+      <h1 class="h1"></h1>
+      <div class="card">
+            <ion-card>
+              <ion-card-content>
+                <h2><strong>Nombre : </strong> {{info.nombres}} </h2>
+                <h2><strong>Dueño : </strong> {{info.dueno}} </h2>
+                <h2><strong>No. Contacto : </strong> {{info.telefono}}</h2>
+                <h2><strong>Sexo : </strong> {{info.sexo}} </h2>
+                <h2><strong>Estelirizado : </strong> {{info.esterilizado}} </h2>
+                <h2><strong>Fecha Nacimiento : </strong> {{info.fecha}} </h2>
+                <h2><strong>Especie : </strong> {{info.especie}}</h2>
+                <h2><strong>Raza : </strong> {{info.raza}}</h2>
+                <h2><strong>Color : </strong> {{info.color}}</h2>
+                
+                <br>
+                
+              </ion-card-content>
+            </ion-card>
+            </div>
+      
+            <button ion-button color="energized" icon-left round block (click)="close()">
+                <ion-icon name="arrow-round-back" ></ion-icon>
+              Volver</button>
+
+
+
+      </div>
+        
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div> 

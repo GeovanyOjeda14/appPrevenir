@@ -1,0 +1,59 @@
+<!--
+  Generated template for the ModalCitaUserPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+      <ion-buttons start>
+          <button ion-button icon-only (click)="close()">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-buttons>
+    <ion-title>Información</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+
+
+    <div class="img">
+        <img id="userImg" [src]="avatar" alt="nd" (click)="verImg(avatar)">
+      </div>
+<h1 class="h1">{{nombreProvedor}}</h1>
+<div class="card">
+      <ion-card>
+        <ion-card-content>
+          <h2><strong>Servicio : </strong> {{info.nombre}}</h2>
+          <h2><strong>Dirección : </strong> {{info.direccion}}</h2>
+          <h2><strong>Numero de contacto : </strong> {{telefonoProvedor}}</h2>
+          <!-- <h2><strong></strong> Dirección : {{direccionProvedor}}</h2> -->
+          <h2 *ngIf="calificacion"><strong>Fecha cita : </strong> {{info.start}}</h2>
+          <h2 *ngIf="!calificacion"><strong>Fecha cita : </strong> {{info.fecha}}</h2>
+          <h2 *ngIf="!calificacion"><strong>Hora cita : </strong> {{info.hora}}</h2>
+          <br>
+          <h2 *ngIf="!calificacion">* Recuerda llegar 15 minutos antes de la cita</h2>
+        </ion-card-content>
+      </ion-card>
+      </div>
+
+      <button *ngIf="!calificacion" class="hc" ion-button round block disabled icon-left>
+        <ion-icon name="list-box"></ion-icon>
+        Hoja de vida Medico</button>
+        <button *ngIf="calificacion" class="hc" ion-button round block icon-left (click)="verServicio()">
+            <ion-icon name="eye"></ion-icon>
+            Ver Servicio</button>
+      <button ion-button color="energized" icon-left round block (click)="close()">
+          <ion-icon name="arrow-round-back" ></ion-icon>
+        Volver</button>
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div> 

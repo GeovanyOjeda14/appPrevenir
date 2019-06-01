@@ -1,0 +1,35 @@
+<h4 class="h4">Filtrar</h4>
+<ion-item *ngIf="!mascota">
+    <ion-label>Categorias</ion-label>
+    <ion-select multiple="false" (ionChange)="categoriaSelect($event);" cancelText="cancelar">
+      <ion-option *ngFor="let cate of ctgas;let i = index" [value]="cate.id_categoria"  >{{cate.nombre}}</ion-option>     
+    </ion-select>
+  </ion-item>
+<ion-item>
+    <ion-label>Departamentos</ion-label>
+    <ion-select multiple="false" (ionChange)="departamentoSelect($event);" cancelText="cancelar">
+      <ion-option *ngFor="let dpt of dptms;let i = index" [value]="dpt.id_departamento"  >{{dpt.nombre}}</ion-option>     
+    </ion-select>
+</ion-item>
+<ion-item>
+    <ion-label>Municipio</ion-label>
+    <ion-select multiple="false" (ionChange)="municipioSelect($event);" cancelText="cancelar">
+        <ion-option *ngFor="let mnp of mncps;let i = index" [value]="mnp.id_municipio"  >{{mnp.nombre}}</ion-option>
+      
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <button *ngIf="!mascota" ion-button icon-left color="prevenir" (click)="buscar()">
+      <ion-icon name="search"> Buscar </ion-icon>
+    </button>
+    <button *ngIf="mascota" ion-button icon-left color="prevenir" (click)="buscarVeterinario()">
+      <ion-icon name="search"> Buscar </ion-icon>
+    </button>
+    <button ion-button icon-left color="danger" (click)="cerrar()">
+      <ion-icon name="close"> Cerrar </ion-icon>
+    </button>
+  </ion-item>
+
+  <div class="loading" *ngIf="load">
+    <img src="/assets/imgs/pulso.gif" alt="">
+  </div> 

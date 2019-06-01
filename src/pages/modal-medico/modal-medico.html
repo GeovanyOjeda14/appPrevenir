@@ -1,0 +1,45 @@
+<!--
+  Generated template for the ModalMedicoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+      <ion-buttons start>
+          <button ion-button icon-only (click)="close()">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-buttons>
+
+    <ion-title >{{info.nombre}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <div class="img">
+        <img id="userImg" [src]="info.avatar" alt="nd" (click)="verImg(info.avatar)">
+    </div>
+
+    <h1 class="h1">{{info.nombre}}</h1>
+    <ion-card>
+      <ion-card-content>
+        <h3><strong> Nombres :</strong> {{info.nombres}}</h3>
+        <h3><strong> Apellidos :</strong> {{info.apellidos}} </h3>
+        <h3><strong> Titulo : </strong> {{info.titulo}}</h3>
+        <h3><strong> Cedula : </strong>{{info.cedula}}</h3>
+        <h3><strong> Tarjeta Profecional : </strong>{{info.tarj_profecional}}</h3>
+      </ion-card-content>
+    </ion-card>
+
+    <button ion-button round block color="danger" (click)="eliminarMedico()">Eliminar Medico</button>
+
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div> 

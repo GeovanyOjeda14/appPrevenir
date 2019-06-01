@@ -1,0 +1,92 @@
+<!--
+  Generated template for the InfoCitaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons start>
+      <button ion-button icon-only (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Información</ion-title>
+  </ion-navbar>
+</ion-header>
+ 
+
+<ion-content padding>
+
+  <div *ngIf="!verMascota">
+
+   <div class="img">
+      <img id="userImg" [src]="avatar" alt="nd" (click)="verImg(avatar)">
+    </div>
+  
+    <h1 class="h1">Información paciente</h1>
+<div class="card">
+    <ion-card>
+      <ion-card-content>
+        <h3><strong>Nombre : </strong>{{nombre}}</h3>
+        <h3><strong>Apellido : </strong>{{apellido}} </h3>
+        <h3><strong>No. Cedula : </strong>{{cedula}}</h3>
+        <h3><strong>Fecha de nacimiento : </strong>{{fechaNacimiento}}</h3>
+        <h3><strong>No. Contacto : </strong>{{contacto}}</h3>
+        <!-- <h3>Correo : {{correo}}</h3> -->
+      </ion-card-content>
+    </ion-card>
+</div>
+
+<button class="hc" ion-button  round block disabled icon-left>
+  <ion-icon name="medkit"></ion-icon>
+  Historia clinica</button>
+<button class="hc" ion-button round block color="danger" icon-left (click)="eliminar(false)">
+  <ion-icon name="trash"></ion-icon>
+  Eliminar cita</button>
+<button ion-button color="energized" icon-left round block (click)="close()">
+    <ion-icon name="arrow-round-back" ></ion-icon>
+  Volver</button>
+</div>
+
+<div *ngIf="verMascota">
+
+    <div class="img">
+        <img id="userImg" [src]="avatar" alt="nd" (click)="verImg(avatar)">
+      </div>
+    
+      <h1 class="h1">Información Mascota</h1>
+  <div class="card">
+      <ion-card>
+        <ion-card-content>
+          <h3><strong>Nombre : </strong>{{nombre}}</h3>
+          <h3><strong>Raza : </strong>{{raza}} </h3>
+          <h3><strong>Color: </strong>{{color}}</h3>
+          <h3><strong>Especie: </strong>{{especie}}</h3>
+          <h3><strong>Sexo: </strong>{{sexo}}</h3>
+          <h3><strong>Esterilizado: </strong>{{esterilizado}}</h3>
+          <h3><strong>Fecha de nacimiento : </strong>{{fechaNacimiento}}</h3>
+          <h3><strong>Nombre dueño : </strong>{{nombreDueno}}</h3>
+          <h3><strong>No. Contacto : </strong>{{contacto}}</h3>
+          <!-- <h3>Correo : {{correo}}</h3> -->
+        </ion-card-content>
+      </ion-card>
+  </div>
+  
+  <button class="hc" ion-button  round block disabled icon-left>
+    <ion-icon name="medkit"></ion-icon>
+    Historia clinica</button>
+  <button class="hc" ion-button round block color="danger" icon-left (click)="eliminar(true)">
+    <ion-icon name="trash"></ion-icon>
+    Eliminar cita</button>
+  <button ion-button color="energized" icon-left round block (click)="close()">
+      <ion-icon name="arrow-round-back" ></ion-icon>
+    Volver</button>
+
+</div>
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div> 
+

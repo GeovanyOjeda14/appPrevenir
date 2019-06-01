@@ -1,0 +1,42 @@
+page-servicios {
+
+   
+
+    .p{
+        text-align: left;
+        padding-top: 20px;
+        padding-left: 10px;
+    }
+    
+    .h4{
+        text-align: center;
+        margin-top: 20px;
+    }
+    .img{
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .dv{
+    
+        #gris {
+          color: grey;
+          font-size: 30px;
+        }
+
+        .clasificacion {
+          // direction: rtl;
+          text-align: left;
+          unicode-bidi: bidi-override;
+        }
+         
+        #amarilla{
+          color: orange;
+          font-size: 30px;
+        }    
+       
+      }
+
+
+    
+}

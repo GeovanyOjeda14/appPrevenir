@@ -1,0 +1,75 @@
+<!--
+  Generated template for the WelcomePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content padding>
+
+  <div class="logo_welcome">
+    <img src="/assets/imgs/logo-grande-negro.png" alt="">
+  </div>
+  <ion-item>
+      <button  ion-button (click)="loginFacebook()" icon-left color="facebook" round block>
+          <ion-icon name="logo-facebook"></ion-icon>
+            Inicia con facebook
+        </button>
+  </ion-item>
+  <br/>
+  <div class="contenido">
+      <form [formGroup]="datos" (ngSubmit)="login()"  novalidate>
+    <ion-item>
+        <ion-label floating>
+          <ion-icon name="mail"></ion-icon>
+          Ingrese su correo</ion-label>
+        <ion-input type="email" formControlName="email" ></ion-input>
+    </ion-item>
+    <ion-item *ngIf="datos.get('email').errors && datos.get('email').dirty">
+        <p color="danger" ion-text *ngIf="datos.get('email').hasError('required')">* El campo es requerido</p>
+        <p color="danger" ion-text *ngIf="datos.get('email').hasError('email')">Tipo de email no valido (ejemplo@mail.com)</p>
+      </ion-item>
+    <ion-item>
+        <ion-label floating>
+          <ion-icon name="key"></ion-icon>
+          Ingrese su contraseña</ion-label>
+        <ion-input type="password" formControlName="pssw"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="datos.get('pssw').errors && datos.get('pssw').dirty">
+        <p color="danger" ion-text *ngIf="datos.get('pssw').hasError('required')">* El campo es requerido</p>
+        <!-- <p color="danger" ion-text *ngIf="datos.get('pssw').hasError('minlenght')">cantidad minima caracteres (8)</p> -->
+      </ion-item>
+    <br><br>
+        <button ion-button [disabled]="!this.datos.valid" icon-left color="prevenir" round block>
+          <ion-icon name="checkmark"></ion-icon>
+          Iniciar sesión
+        </button>
+ 
+    </form>
+    <br/>
+
+    <button ion-button (click)="goToRegistro()" icon-left color="energized" round block>
+        <ion-icon name="person-add"></ion-icon>
+        Registrate
+      </button>
+      <br>
+
+      <div class="cambioContra">
+        <a (click)="cambioContrasena()">¿Olvidó su contraseña?</a>
+      </div>
+      
+      <!-- <button ion-button (click)="cambioContrasena()" icon-left color="light" round block>
+          <ion-icon name="key"></ion-icon>
+          Recuperar Cuenta
+        </button> -->
+      
+  </div>
+ 
+      
+
+ 
+ 
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div>

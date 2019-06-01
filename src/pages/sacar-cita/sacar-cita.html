@@ -1,0 +1,532 @@
+<ion-header>
+  <ion-navbar>
+  
+    <ion-title>
+      Sacar cita
+    </ion-title>
+    <ion-buttons end *ngIf="!citaProvedor">
+      <button ion-button (click)="calendar.today()">
+        <ion-icon name="calendar"></ion-icon>
+        </button>
+  </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <div *ngIf="!citaProvedor">
+      <!-- <ion-calendar #calendar lang="es"
+      [events]="currentEvents" (onDaySelect)="onDaySelect($event)" 
+      (onMonthSelect)="onMonthSelect($event)"
+     
+      ></ion-calendar> -->
+  
+  <ion-calendar #calendar lang="es"
+  (onDaySelect)="onDaySelect($event)"
+
+ 
+  ></ion-calendar>
+  <h1 class="h1" *ngIf="!hr">Horario Disponible</h1>
+  <h1 class="h1" *ngIf="hr">Horario No Disponible</h1>
+  <h3 *ngIf="!hr">Mañana</h3>
+  <div class="cerrado" *ngIf="mn">
+  <img  class="img_cerrado"  src="/assets/imgs/cerrado.jpg" alt="">
+  </div>
+
+
+  <div class="hr"  *ngIf="!hr">
+
+ 
+  
+<ion-list>
+    <div *ngFor="let i of maniana">
+      <button ion-item (click)="sacarCita(i.hora)" *ngIf="!mn" [disabled]="i.libres === 0" >
+        <p>{{i.hora}}</p>
+        <p>Citas disponibles : {{i.libres}}</p>
+      </button>
+    </div>   
+</ion-list>   
+
+<h3>Tarde</h3>
+<ion-list>
+<div *ngFor="let i of tarde">
+    <button ion-item (click)="sacarCita(i.hora,'tarde')" *ngIf="!td" [disabled]="i.libres === 0" >
+      <p>{{i.hora}}</p>
+      <p>Citas disponibles : {{i.libres}}</p>
+    </button>
+  </div>
+</ion-list>
+
+<div class="cerrado" *ngIf="td">
+    <img  class="img_cerrado"  src="/assets/imgs/cerrado.jpg" alt="">
+    </div>
+
+</div>
+
+</div>
+
+
+ <!-- ----------------------------------SACAR CITA PROVEDOR ---------------------------------------------- -->
+
+ <div *ngIf="citaProvedor">
+
+    <form [formGroup]="datos" (ngSubmit)="buscarCedula()"  novalidate>
+  <ion-item>
+    <ion-label>
+      <ion-icon name="card"></ion-icon>
+    </ion-label>
+    <ion-input type="number" placeholder="No. de Cedula" formControlName="identificacion" readonly={{read}}></ion-input>
+  </ion-item>
+  <ion-item *ngIf="datos.get('identificacion').errors && datos.get('identificacion').dirty">
+      <p color="danger" ion-text *ngIf="datos.get('identificacion').hasError('required')">* El campo es requerido</p>
+      <p color="danger" ion-text *ngIf="datos.get('identificacion').hasError('pattern')">* El campo solo acepta numeros</p>
+  </ion-item>
+    </form>
+
+    <div class="btns">
+    <button ion-button (click)="buscarCedula()">Buscar</button>
+    <button ion-button color="danger" (click)="borrar()">Borrar</button>
+    </div>
+
+    <div *ngIf="form">
+    <form [formGroup]="datos" (ngSubmit)="sacarCitaProvedor(true)"  novalidate>
+        <ion-item>
+          <ion-label>
+            <ion-icon name="person"></ion-icon>
+            Nombres
+          </ion-label>
+          <ion-input type="text" placeholder="Nombres" formControlName="nombres" readonly={{read}}></ion-input>
+        </ion-item>
+        <ion-item *ngIf="datos.get('nombres').errors && datos.get('nombres').dirty">
+          <p color="danger" ion-text *ngIf="datos.get('nombres').hasError('required')">* El campo es requerido</p>
+          <p color="danger" ion-text *ngIf="datos.get('nombres').hasError('minlength')">Cantidad minima de caracteres (2)</p>
+      </ion-item>
+ 
+      <ion-item>
+          <ion-label>
+            <ion-icon name="person"></ion-icon>
+            Apellidos
+          </ion-label>
+          <ion-input type="text" placeholder="Apellidos" formControlName="apellidos" readonly={{read}}></ion-input>
+        </ion-item>
+        <ion-item *ngIf="datos.get('apellidos').errors && datos.get('apellidos').dirty">
+          <p color="danger" ion-text *ngIf="datos.get('apellidos').hasError('required')">* El campo es requerido</p>
+          <p color="danger" ion-text *ngIf="datos.get('apellidos').hasError('minlength')">Cantidad minima de caracteres (2)</p>
+      </ion-item>
+
+      <ion-item>
+          <ion-label>
+            <ion-icon name="card"></ion-icon>
+            Identificacion
+          </ion-label>
+          <ion-input type="number" placeholder="No. de identificacion" formControlName="identificacion" readonly={{read}}></ion-input>
+        </ion-item>
+        <ion-item *ngIf="datos.get('identificacion').errors && datos.get('identificacion').dirty">
+          <p color="danger" ion-text *ngIf="datos.get('identificacion').hasError('required')">* El campo es requerido</p>
+          <p color="danger" ion-text *ngIf="datos.get('identificacion').hasError('pattern')">* El campo solo acepta numeros</p>
+      </ion-item>
+
+      <!-- <ion-item *ngIf="!fechaNacimiento">
+          <ion-label icon-left>
+            <ion-icon name="calendar"></ion-icon>
+            Fecha nacimiento</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" formControlName="fecha" doneText="Aceptar" cancelText="Cancelar"></ion-datetime>
+        </ion-item> -->
+
+        <ion-item>
+          <ion-label>
+            <ion-icon name="calendar" ></ion-icon>
+            Fecha nacimiento
+          </ion-label>
+          <ion-input type="text" formControlName="fecha_nacimiento" readonly={{read}}></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>
+              <ion-icon name="call"></ion-icon>
+              No. de Contacto
+            </ion-label>
+            <ion-input type="number" placeholder="No. de Contacto" formControlName="contacto" readonly={{read}}></ion-input>
+          </ion-item>
+          <ion-item *ngIf="datos.get('contacto').errors && datos.get('contacto').dirty">
+            <p color="danger" ion-text *ngIf="datos.get('contacto').hasError('required')">* El campo es requerido</p>
+            <p color="danger" ion-text *ngIf="datos.get('contacto').hasError('pattern')">* El campo solo acepta numeros</p>
+        </ion-item>
+        
+        <button ion-button block round [disabled]="!this.datos.valid" icon-left>
+          <ion-icon name="list-box"></ion-icon>
+          Sacar cita
+        </button>
+    </form>
+  </div>
+
+  
+  <div *ngIf="form2">
+    
+    <form [formGroup]="datos" (ngSubmit)="sacarCitaProvedor(false)"  novalidate>
+      <ion-item>
+        <ion-label>
+          <ion-icon name="person"></ion-icon>
+        </ion-label>
+        <ion-input type="text" placeholder="Nombres" formControlName="nombres" ></ion-input>
+      </ion-item>
+      <ion-item *ngIf="datos.get('nombres').errors && datos.get('nombres').dirty">
+        <p color="danger" ion-text *ngIf="datos.get('nombres').hasError('required')">* El campo es requerido</p>
+        <p color="danger" ion-text *ngIf="datos.get('nombres').hasError('minlength')">Cantidad minima de caracteres (2)</p>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>
+          <ion-icon name="person"></ion-icon>
+        </ion-label>
+        <ion-input type="text" placeholder="Apellidos" formControlName="apellidos" ></ion-input>
+      </ion-item>
+      <ion-item *ngIf="datos.get('apellidos').errors && datos.get('apellidos').dirty">
+        <p color="danger" ion-text *ngIf="datos.get('apellidos').hasError('required')">* El campo es requerido</p>
+        <p color="danger" ion-text *ngIf="datos.get('apellidos').hasError('minlength')">Cantidad minima de caracteres (2)</p>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>
+          <ion-icon name="card"></ion-icon>
+        </ion-label>
+        <ion-input type="number" placeholder="No. de identificacion" formControlName="identificacion" readonly={{read}}></ion-input>
+      </ion-item>
+      <ion-item *ngIf="datos.get('identificacion').errors && datos.get('identificacion').dirty">
+        <p color="danger" ion-text *ngIf="datos.get('identificacion').hasError('required')">* El campo es requerido</p>
+        <p color="danger" ion-text *ngIf="datos.get('identificacion').hasError('pattern')">* El campo solo acepta numeros</p>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>
+          <ion-icon name="mail"></ion-icon>
+        </ion-label>
+        <ion-input type="email" placeholder="Correo electronico" formControlName="correo"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="datos.get('correo').errors && datos.get('correo').dirty">
+        <p color="danger" ion-text *ngIf="datos.get('correo').hasError('required')">* El campo es requerido</p>
+        <p color="danger" ion-text *ngIf="datos.get('correo').hasError('pattern') ">* El tipo de email no es valido.</p>
+    </ion-item>
+
+    <ion-item >
+        <ion-label icon-left>
+          <ion-icon name="calendar"></ion-icon>
+          Fecha nacimiento</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY" formControlName="fecha" doneText="Aceptar" cancelText="Cancelar"></ion-datetime>
+      </ion-item>
+
+      <!-- <ion-item>
+        <ion-label>
+          <ion-icon name="calendar" ></ion-icon>
+          Fecha nacimiento
+        </ion-label>
+        <ion-input type="text" formControlName="fecha_nacimiento" readonly={{read}}></ion-input>
+      </ion-item> -->
+
+      <ion-item>
+          <ion-label>
+            <ion-icon name="call"></ion-icon>
+          </ion-label>
+          <ion-input type="number" placeholder="No. de Contacto" formControlName="contacto"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="datos.get('contacto').errors && datos.get('contacto').dirty">
+          <p color="danger" ion-text *ngIf="datos.get('contacto').hasError('required')">* El campo es requerido</p>
+          <p color="danger" ion-text *ngIf="datos.get('contacto').hasError('pattern')">* El campo solo acepta numeros</p>
+      </ion-item>
+      
+      <button ion-button block round [disabled]="!this.datos.valid" icon-left >
+        <ion-icon name="list-box"></ion-icon>
+        Sacar cita
+      </button>
+  </form>
+
+  </div>
+
+  <div *ngIf="mascotaForm">
+
+  <form [formGroup]="datosMascota" (ngSubmit)="sacarCitaProvedorMascota(false)"  novalidate>
+    <ion-item>
+      <ion-label>
+        <ion-icon name="person"></ion-icon>
+      </ion-label>
+      <ion-input type="text" placeholder="Nombres" formControlName="nombres" ></ion-input>
+    </ion-item>
+    <ion-item *ngIf="datosMascota.get('nombres').errors && datosMascota.get('nombres').dirty">
+      <p color="danger" ion-text *ngIf="datosMascota.get('nombres').hasError('required')">* El campo es requerido</p>
+      <p color="danger" ion-text *ngIf="datosMascota.get('nombres').hasError('minlength')">Cantidad minima de caracteres (2)</p>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>
+        <ion-icon name="person"></ion-icon>
+      </ion-label>
+      <ion-input type="text" placeholder="Apellidos" formControlName="apellidos" ></ion-input>
+    </ion-item>
+    <ion-item *ngIf="datosMascota.get('apellidos').errors && datosMascota.get('apellidos').dirty">
+      <p color="danger" ion-text *ngIf="datosMascota.get('apellidos').hasError('required')">* El campo es requerido</p>
+      <p color="danger" ion-text *ngIf="datosMascota.get('apellidos').hasError('minlength')">Cantidad minima de caracteres (2)</p>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>
+        <ion-icon name="card"></ion-icon>
+      </ion-label>
+      <ion-input type="number" placeholder="No. de identificacion" formControlName="identificacion" readonly={{read}}></ion-input>
+    </ion-item>
+    <ion-item *ngIf="datosMascota.get('identificacion').errors && datosMascota.get('identificacion').dirty">
+      <p color="danger" ion-text *ngIf="datosMascota.get('identificacion').hasError('required')">* El campo es requerido</p>
+      <p color="danger" ion-text *ngIf="datosMascota.get('identificacion').hasError('pattern')">* El campo solo acepta numeros</p>
+  </ion-item>
+
+    <ion-item>
+        <ion-label>
+          <ion-icon name="call"></ion-icon>
+        </ion-label>
+        <ion-input type="number" placeholder="No. de Contacto" formControlName="contacto"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="datosMascota.get('contacto').errors && datosMascota.get('contacto').dirty">
+        <p color="danger" ion-text *ngIf="datosMascota.get('contacto').hasError('required')">* El campo es requerido</p>
+        <p color="danger" ion-text *ngIf="datosMascota.get('contacto').hasError('pattern')">* El campo solo acepta numeros</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <ion-icon name="paw"></ion-icon>
+      </ion-label>
+      <ion-input type="text" placeholder="Nombre mascota" formControlName="nombreMascota"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="datosMascota.get('nombreMascota').errors && datosMascota.get('nombreMascota').dirty">
+      <p color="danger" ion-text *ngIf="datosMascota.get('nombreMascota').hasError('required')">* El campo es requerido</p>
+      <p color="danger" ion-text *ngIf="datosMascota.get('nombreMascota').hasError('pattern')">* El campo solo acepta numeros</p>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      <ion-icon name="paw"></ion-icon>
+    </ion-label>
+    <ion-input type="text" placeholder="Especie" formControlName="especie"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="datosMascota.get('especie').errors && datosMascota.get('especie').dirty">
+    <p color="danger" ion-text *ngIf="datosMascota.get('especie').hasError('required')">* El campo es requerido</p>
+    <p color="danger" ion-text *ngIf="datosMascota.get('especie').hasError('pattern')">* El campo solo acepta numeros</p>
+  </ion-item>
+
+  <ion-item>
+    <ion-label icon-left><ion-icon name="female"></ion-icon>Sexo</ion-label>
+    <ion-select (ionChange)="sexo($event)" cancelText="cancelar">
+      <ion-option value="Macho">Macho</ion-option>
+      <ion-option value="Hembra">Hembra</ion-option>
+    </ion-select>   
+  </ion-item>
+
+  <ion-item>
+    <ion-label icon-left><ion-icon name="male"></ion-icon>Esterilizado</ion-label>
+    <ion-select (ionChange)="esterilizado($event)" cancelText="cancelar">
+      <ion-option value="si">Si</ion-option>
+      <ion-option value="no">No</ion-option>
+    </ion-select>   
+  </ion-item>
+
+
+
+    
+    <button ion-button block round [disabled]="!this.datosMascota.valid" icon-left >
+      <ion-icon name="list-box"></ion-icon>
+      Sacar cita
+    </button>
+</form>
+
+  </div>
+
+  <div *ngIf="mascotaForm2">
+
+    <form [formGroup]="datosMascota" (ngSubmit)="sacarCitaProvedorMascota(true)"  novalidate>
+      <ion-item>
+        <ion-label>
+          <ion-icon name="person"></ion-icon>
+        </ion-label>
+        <ion-input type="text" placeholder="Nombres" formControlName="nombres" readonly={{read}}></ion-input>
+      </ion-item>
+      <ion-item *ngIf="datosMascota.get('nombres').errors && datosMascota.get('nombres').dirty">
+        <p color="danger" ion-text *ngIf="datosMascota.get('nombres').hasError('required')">* El campo es requerido</p>
+        <p color="danger" ion-text *ngIf="datosMascota.get('nombres').hasError('minlength')">Cantidad minima de caracteres (2)</p>
+    </ion-item>
+  
+    <ion-item>
+        <ion-label>
+          <ion-icon name="person"></ion-icon>
+        </ion-label>
+        <ion-input type="text" placeholder="Apellidos" formControlName="apellidos" readonly={{read}}></ion-input>
+      </ion-item>
+      <ion-item *ngIf="datosMascota.get('apellidos').errors && datosMascota.get('apellidos').dirty">
+        <p color="danger" ion-text *ngIf="datosMascota.get('apellidos').hasError('required')">* El campo es requerido</p>
+        <p color="danger" ion-text *ngIf="datosMascota.get('apellidos').hasError('minlength')">Cantidad minima de caracteres (2)</p>
+    </ion-item>
+  
+    <ion-item>
+        <ion-label>
+          <ion-icon name="card"></ion-icon>
+        </ion-label>
+        <ion-input type="number" placeholder="No. de identificacion" formControlName="identificacion" readonly={{read}}></ion-input>
+      </ion-item>
+      <ion-item *ngIf="datosMascota.get('identificacion').errors && datosMascota.get('identificacion').dirty">
+        <p color="danger" ion-text *ngIf="datosMascota.get('identificacion').hasError('required')">* El campo es requerido</p>
+        <p color="danger" ion-text *ngIf="datosMascota.get('identificacion').hasError('pattern')">* El campo solo acepta numeros</p>
+    </ion-item>
+  
+      <ion-item>
+          <ion-label>
+            <ion-icon name="call"></ion-icon>
+          </ion-label>
+          <ion-input type="number" placeholder="No. de Contacto" formControlName="contacto" readonly={{read}}></ion-input>
+        </ion-item>
+        <ion-item *ngIf="datosMascota.get('contacto').errors && datosMascota.get('contacto').dirty">
+          <p color="danger" ion-text *ngIf="datosMascota.get('contacto').hasError('required')">* El campo es requerido</p>
+          <p color="danger" ion-text *ngIf="datosMascota.get('contacto').hasError('pattern')">* El campo solo acepta numeros</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Peluditos</ion-label>
+        <ion-select multiple="false" (ionChange)="mascotaSelect($event);" cancelText="cancelar">
+          <ion-option *ngFor="let m of this.infoCitas.masc;let i = index" [value]="m.id_mascotas"  >{{m.nombre}}</ion-option>  
+          <ion-option value="nueva">Agregar otra</ion-option>   
+        </ion-select>
+      </ion-item>
+  
+      <!-- <ion-item>
+        <ion-label>
+          <ion-icon name="paw"></ion-icon>
+        </ion-label>
+        <ion-input type="text" placeholder="Nombre mascota" formControlName="nombreMascota"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="datosMascota.get('nombreMascota').errors && datosMascota.get('nombreMascota').dirty">
+        <p color="danger" ion-text *ngIf="datosMascota.get('nombreMascota').hasError('required')">* El campo es requerido</p>
+        <p color="danger" ion-text *ngIf="datosMascota.get('nombreMascota').hasError('pattern')">* El campo solo acepta numeros</p>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label>
+        <ion-icon name="paw"></ion-icon>
+      </ion-label>
+      <ion-input type="text" placeholder="Especie" formControlName="especie"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="datosMascota.get('especie').errors && datosMascota.get('especie').dirty">
+      <p color="danger" ion-text *ngIf="datosMascota.get('especie').hasError('required')">* El campo es requerido</p>
+      <p color="danger" ion-text *ngIf="datosMascota.get('especie').hasError('pattern')">* El campo solo acepta numeros</p>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label icon-left><ion-icon name="male"></ion-icon>Esterilizado</ion-label>
+      <ion-select (ionChange)="esterilizado($event)" cancelText="cancelar">
+        <ion-option value="si">Si</ion-option>
+        <ion-option value="no">No</ion-option>
+      </ion-select>   
+    </ion-item>
+  
+    <ion-item>
+      <ion-label icon-left><ion-icon name="female"></ion-icon>Sexo</ion-label>
+      <ion-select (ionChange)="sexo($event)" cancelText="cancelar">
+        <ion-option value="Macho">Macho</ion-option>
+        <ion-option value="Hembra">Hembra</ion-option>
+      </ion-select>   
+    </ion-item> -->
+  
+    <button *ngIf="!mascotaForm3" ion-button block round [disabled]="!this.datosMascota.valid" icon-left >
+      <ion-icon name="list-box"></ion-icon>
+      Sacar cita
+    </button>
+      
+  </form>
+
+  <div *ngIf="mascotaForm3">
+
+    <div class="h3"><h3 >Agregar peludito</h3></div>
+    
+    <form [formGroup]="datosMascotaNueva" (ngSubmit)="citaMascotaNueva()"  novalidate>
+     
+        <ion-item>
+            <ion-label icon-left><ion-icon name="paw"></ion-icon></ion-label>
+            <ion-input type="text" placeholder="Nombre peludito" formControlName="nombres"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="datosMascotaNueva.get('nombres').errors && datosMascotaNueva.get('nombres').dirty">
+              <p color="danger" ion-text *ngIf="datosMascotaNueva.get('nombres').hasError('required')">* El campo es requerido</p>
+              <p color="danger" ion-text *ngIf="datosMascotaNueva.get('nombres').hasError('minlength')">Cantidad minima de caracteres (2)</p>
+              <p color="danger" ion-text *ngIf="datosMascotaNueva.get('nombres').hasError('maxlength')">Cantidad minima de caracteres (50)</p>
+          </ion-item>
+    
+          <ion-item>
+              <ion-label icon-left><ion-icon name="paw"></ion-icon></ion-label>
+              <ion-input type="text" placeholder="Especie" formControlName="especie"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="datosMascotaNueva.get('especie').errors && datosMascotaNueva.get('especie').dirty">
+              <p color="danger" ion-text *ngIf="datosMascotaNueva.get('especie').hasError('required')">* El campo es requerido</p>
+              <p color="danger" ion-text *ngIf="datosMascotaNueva.get('especie').hasError('minlength')">Cantidad minima de caracteres (2)</p>
+              <p color="danger" ion-text *ngIf="datosMascotaNueva.get('especie').hasError('maxlength')">Cantidad minima de caracteres (50)</p>
+          </ion-item>
+    
+          <ion-item>
+              <ion-label icon-left><ion-icon name="paw"></ion-icon></ion-label>
+              <ion-input type="text" placeholder="Raza" formControlName="raza"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="datosMascotaNueva.get('raza').errors && datosMascotaNueva.get('raza').dirty">
+              <p color="danger" ion-text *ngIf="datosMascotaNueva.get('raza').hasError('required')">* El campo es requerido</p>
+              <p color="danger" ion-text *ngIf="datosMascotaNueva.get('raza').hasError('minlength')">Cantidad minima de caracteres (2)</p>
+              <p color="danger" ion-text *ngIf="datosMascotaNueva.get('raza').hasError('maxlength')">Cantidad minima de caracteres (50)</p>
+          </ion-item>
+    
+          <ion-item>
+              <ion-label icon-left><ion-icon name="female"></ion-icon>Sexo</ion-label>
+              <ion-select (ionChange)="sexo($event)" cancelText="cancelar">
+                <ion-option value="Macho">Macho</ion-option>
+                <ion-option value="Hembra">Hembra</ion-option>
+              </ion-select>   
+          </ion-item>
+    
+          <ion-item>
+              <ion-label icon-left><ion-icon name="color-palette"></ion-icon></ion-label>
+              <ion-input type="text" placeholder="Color" formControlName="color"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="datosMascotaNueva.get('color').errors && datosMascotaNueva.get('color').dirty">
+              <p color="danger" ion-text *ngIf="datosMascotaNueva.get('color').hasError('required')">* El campo es requerido</p>
+              <p color="danger" ion-text *ngIf="datosMascotaNueva.get('color').hasError('minlength')">Cantidad minima de caracteres (2)</p>
+              <p color="danger" ion-text *ngIf="datosMascotaNueva.get('color').hasError('maxlength')">Cantidad minima de caracteres (50)</p>
+          </ion-item>
+    
+          <ion-item>
+              <ion-label icon-left>
+                <ion-icon name="calendar"></ion-icon>
+                Fecha nacimiento</ion-label>
+              <ion-datetime displayFormat="DD/MM/YYYY" formControlName="fechaNacimiento" doneText="Ok" cancelText="Cancelar"></ion-datetime>
+            </ion-item>
+            <ion-item *ngIf="datosMascotaNueva.get('fechaNacimiento').errors && datosMascotaNueva.get('fechaNacimiento').dirty">
+                <p color="danger" ion-text *ngIf="datosMascotaNueva.get('fechaNacimiento').hasError('required')">* El campo es requerido</p>
+            </ion-item>
+    
+            <ion-item>
+                <ion-label icon-left><ion-icon name="male"></ion-icon>Esterilizado</ion-label>
+                <ion-select (ionChange)="esterilizado($event)" cancelText="cancelar">
+                  <ion-option value="si">Si</ion-option>
+                  <ion-option value="no">No</ion-option>
+                </ion-select>   
+            </ion-item>
+    
+            <button ion-button type="submit" icon-left round block>
+              <ion-icon name="list-box"></ion-icon>
+              Agregar Peludito y sacar cita
+            </button> 
+  
+      
+  </form>
+  </div>
+
+    </div>
+
+ </div>
+
+
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div>

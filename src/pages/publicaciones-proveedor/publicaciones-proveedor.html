@@ -1,0 +1,134 @@
+<!--
+  Generated template for the PublicacionesProveedorPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title *ngIf="!historial" >Perfil provedor</ion-title>
+    <ion-title *ngIf="historial" >Historial de Citas</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+
+
+  <div *ngIf="!historial">   
+
+      <div class="img">
+          <img id="userImg" [src]="avatar" alt="nd" (click)="verImg(avatar)">
+        </div>
+
+        <h1 class="texto">{{proveedor.nombre}}</h1>
+
+  <div class="carta">
+    <ion-card>
+      <ion-card-header>
+       <strong>Información Provedor</strong> 
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Telefono : </strong> {{proveedor.telefono}}</p>
+        <p><strong>Dirección : </strong> {{proveedor.direccion}}</p>
+        <p><strong>Nit / Tarjeta profecional : </strong> {{proveedor.nit}}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <button ion-button round block color="danger" (click)="goToMasPublicaciones()">Ver más publicaciones</button>
+
+      
+  <ion-card>
+    <ion-card-header>
+    <strong>Contactenos</strong>	
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+             <ion-avatar item-start>
+              <img src="{{avatar}}">
+             </ion-avatar>
+             <h2>{{proveedor.nombre}}</h2>
+             <p>Proveedor</p>		
+      </ion-item>
+      
+      <form [formGroup]="datos" (ngSubmit)="mensaje()"  novalidate>
+      <ion-item><ion-input class="inp" type="text"  readonly [value]="nombreUser"></ion-input></ion-item>
+      <ion-item><ion-input class="inp" type="email" readonly [value]="correoUser"></ion-input></ion-item>
+      <ion-item>
+        <ion-label>Asunto</ion-label>
+          <ion-select (ionChange)="asunto($event);">
+            <ion-option value="Consulta">Consulta</ion-option>
+            <ion-option value="Pregunta">Pregunta</ion-option>
+            <ion-option value="Comentario">Comentario</ion-option>
+          </ion-select>
+      </ion-item>
+      
+      <ion-textarea type="text" class="txt_area" formControlName="descripcion" rows="5"  placeholder="Escribe aqui tu mensaje"></ion-textarea>
+        <button ion-button icon-left color="danger" class="btnCitas" [disabled]="!this.datos.valid" round block>
+        <ion-icon name="mail"></ion-icon>
+          Mensaje
+      </button>
+    </form>
+  
+    </ion-card-content>
+  </ion-card>
+    
+
+  <!-- <h1 class="texto">Mas publicaciones de </h1>
+  <h2 class="texto">{{proveedor.nombre}}</h2>
+  <br>
+  <div class="carta" *ngFor="let servicio of inf">
+  <ion-card>
+    <ion-card-header><h2><strong>{{servicio.nombre}}</strong></h2></ion-card-header>
+    <ion-card-content>
+      
+              <p><strong>Descuento :</strong>  {{servicio.descuento}}%</p>
+              <p><strong>Precio a Particulares :</strong>  ${{servicio.precio}}</p>
+              <p><strong>Precio clientes Prevenir :</strong>  ${{servicio.precio_cliente_prevenir}}</p>
+
+       
+        <button ion-button icon-left (click)="goToService(servicio)">
+          <ion-icon name="eye"></ion-icon>
+          Ver</button>
+    </ion-card-content>
+   
+    </ion-card>
+   </div> -->
+
+  </div>
+
+  <div *ngIf="historial">
+    <h2 id="h2" *ngIf="mostrarHistorial">Aun no tienes un historial de citas</h2>
+    <ion-card *ngFor="let h of infoH">
+      <ion-card-header>
+        {{h.nombre}}
+      </ion-card-header>
+      <ion-card-content>
+          <p><strong>Nombre :</strong> {{h.nombres}} </p>
+          <p><strong>Fecha :</strong> {{h.start}}</p>
+          
+          <br>
+
+        <div class="btn">
+            <button ion-button color="prevenir" (click)="ver(h)" icon-left *ngIf="h.calificada == 1">
+              <ion-icon name="eye"></ion-icon>
+              Ver</button>
+            <button ion-button icon-left color="energized" (click)="calificar(h)" *ngIf="h.calificada == 0">
+                <ion-icon name="star"></ion-icon>
+                Calificar</button>
+        </div>
+        
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div> 

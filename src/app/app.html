@@ -1,0 +1,66 @@
+<ion-menu [content]="content" persistent="true">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+    	
+    <button ion-item (click)="goToUser()" menuClose>
+        
+           <ion-avatar item-start>
+            <img [src]="global.foto">
+           </ion-avatar>
+           <h2>{{global.nombre}}</h2>
+           <p>Mi cuenta</p>
+               
+    </button>
+    <button *ngIf="global.admin" ion-item (click)="pubicar()" menuClose>
+      <ion-icon item-left name="list-box"></ion-icon>
+     Publicar servicio
+    </button>
+    <button *ngIf="!global.admin && !global.medico" ion-item (click)="beneficiarios()" menuClose>
+      <ion-icon item-left name="list-box"></ion-icon>
+    Beneficiarios
+    </button>
+      
+      <!-- <button ion-item *ngFor="let page of pages" (click)="goToPage(page.component)" menuClose>
+        <ion-icon item-left name="{{page.icon}}"></ion-icon>
+        {{page.titulo}}
+      </button> -->
+      
+      <!-- <button ion-item (click)="goToService()" menuClose hideBackButton>
+      	<ion-icon name="medkit" item-start></ion-icon>
+        Servicios
+      </button> -->
+      
+      <button ion-item (click)="goToHistorial()" menuClose hideBackButton>
+      	<ion-icon name="clipboard" item-start></ion-icon>
+        Mis Citas
+      </button>
+
+      <button  *ngIf="global.admin" ion-item (click)="goToMedicos()" menuClose hideBackButton>
+      	<ion-icon name="medkit" item-start></ion-icon>
+        Gestionar Medicos
+      </button>
+      
+      <button ion-item (click)="goToContactenos()" menuClose hideBackButton>
+          <ion-icon name="call" item-start></ion-icon>
+          Contactenos
+        </button>
+        
+      <button ion-item (click)="goToTerminos()" menuClose hideBackButton>
+      	<ion-icon name="book" item-start></ion-icon>
+        Terminos y condiciones
+      </button>
+      
+      <button ion-item (click)="logOut()" menuClose hideBackButton>
+      	<ion-icon name="power" item-start></ion-icon>
+        Cerrar sesión
+      </button>
+      
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-nav id="nav" #content [root]="rootPage"></ion-nav>

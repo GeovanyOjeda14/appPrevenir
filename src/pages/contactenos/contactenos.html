@@ -1,0 +1,123 @@
+<!--
+  Generated template for the ContactenosPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+  	<!-- <button ion-button menuToggle>
+  		<ion-icon name="menu"></ion-icon>
+  	</button> -->
+    <ion-title *ngIf="!mostrar">Contactenos</ion-title>
+    <ion-title *ngIf="mostrar">Mas Publicaciones</ion-title>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <div *ngIf="!mostrar">
+<br>
+<div class="logo">
+  <img src="/assets/imgs/logo.png" alt="">
+</div>
+  
+<ion-card margin-top>
+  <ion-card-header class="prevenir-title">
+    <h1 text-center >CONTACTENOS</h1>
+  </ion-card-header>
+
+  <ion-card-content>
+    <p margin-bottom>El objetivo de <strong>Grupo Prevenir Express SAS</strong>
+      es proveer soluciones integrales que faciliten y agilicen la toma de decisiones importantes para nuestros suscriptores, 
+      en la adquisición de productos o servicios de las diferentes entidades.
+    </p>
+    <ion-list>
+      <ion-item no-padding>
+        <ion-icon name="locate"></ion-icon>&nbsp;
+        carrera 29 No. 17-89  <br> segundo piso  <br> diagonal camara de comercio. <br>
+        San Juan de Pasto Nariño, Colombia
+      </ion-item>
+      <ion-item no-padding>
+        <ion-icon name="phone-portrait"></ion-icon>&nbsp;
+        Teléfono: <a href="tel:+57-3104351937">+57 3104351937</a>
+      </ion-item>
+
+      <ion-item no-padding>
+        <ion-icon name="mail"></ion-icon>&nbsp;
+        Correo<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="mailto:clientes@prevenirexpress.co">clientes@prevenirexpress.com</a>      
+      </ion-item>
+    </ion-list>
+    
+  </ion-card-content>
+</ion-card>
+  <!-- <ion-card > -->
+    <!-- <ion-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi consequuntur dolorem sapiente laboriosam enim nobis omnis eaque, nam vitae, quibusdam architecto rem quisquam eos iste, deleniti, laudantium doloribus iusto sit? Nobis amet harum quo eius culpa dolore officiis iusto veniam consectetur illum vitae dolorem architecto, possimus ratione eaque, odio beatae.      <br>
+      <br>
+    <p icon-left><ion-icon name="locate">  asdas</ion-icon></p>  
+    <p icon-left><ion-icon name="call">  asdas</ion-icon></p>  
+    <p icon-left><ion-icon name="mail">  asdas</ion-icon></p>
+    </ion-card-content> -->
+
+    <!-- <p margin-bottom>El objetivo de <strong>Grupo Prevenir Express SAS</strong>
+      es proveer soluciones integrales que faciliten y agilicen la toma de decisiones importantes para nuestros suscriptores, 
+      en la adquisición de productos o servicios de las diferentes entidades.
+    </p>
+    <ion-list>
+      <ion-item no-padding>
+        <ion-icon name="locate"></ion-icon>&nbsp;
+        Centro Comercial Los Andes <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Local 214 - San Juan de Pasto
+      </ion-item>
+      <ion-item no-padding>
+        <ion-icon name="phone-portrait"></ion-icon>&nbsp;
+        Teléfono: <a href="call:+573104351937">+57 3104351937</a>
+      </ion-item>
+      <ion-item no-padding>
+        <ion-icon name="mail"></ion-icon>&nbsp;
+        Correo<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="mailto:clientes@prevenirexpress.co">clientes@prevenirexpress.com</a>      
+      </ion-item>
+    </ion-list>
+  </ion-card> -->
+
+  <ion-fab >
+      <button ion-fab icon-center >
+        <ion-icon name="logo-whatsapp"></ion-icon>
+      </button>
+    
+    </ion-fab>
+  
+  </div>
+
+
+  <!-- ---------------------------------------- Mas publicaciones ------------------------------------- -->
+
+  <div *ngIf="mostrar">
+
+
+  <!-- <h1 class="texto">Mas publicaciones </h1>
+  <h2 class="texto"></h2> -->
+  <br>
+  <div class="carta" *ngFor="let servicio of inf">
+  <ion-card>
+    <ion-card-header><h2><strong>{{servicio.nombre}}</strong></h2></ion-card-header>
+    <ion-card-content>
+      
+              <p><strong>Descuento :</strong>  {{servicio.descuento}}%</p>
+              <p><strong>Precio a Particulares :</strong>  ${{servicio.precio}}</p>
+              <p><strong>Precio clientes Prevenir :</strong>  ${{servicio.precio_cliente_prevenir}}</p>
+
+       
+        <button ion-button icon-left (click)="goToService(servicio)">
+          <ion-icon name="eye"></ion-icon>
+          Ver</button>
+    </ion-card-content>
+   
+    </ion-card>
+   </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,98 @@
+<!--
+  Generated template for the ServiciosPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+  	<!-- <button ion-button menuToggle>
+  		<ion-icon name="menu"></ion-icon>
+  	</button> -->
+    <ion-title>Servicios</ion-title>
+    <!-- <ion-title>{{viewTitle}}</ion-title> -->
+    <ion-buttons end>
+        <button class="btnNavbar" ion-button (click)="popover($event)">
+          <ion-icon name="settings"></ion-icon>
+          </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div>
+    <ion-searchbar (ionInput)="getItems($event)" (ionCancel)="cancel($event)" [ngModel]="busqueda" placeholder="¿ Que estas buscando ?"></ion-searchbar>
+    <!-- <ion-searchbar (ionCancel)="cancel($event)" [ngModel]="busqueda" placeholder="Buscar"></ion-searchbar> -->
+  </div>
+  <h4 class="h4" *ngIf="mostrar">No se encontraron resultados</h4>
+
+<div *ngIf="!mostrar">
+  <div *ngFor="let servicio of services " icon-left (click)="goToServicio(servicio)">
+  <ion-card >
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+            <img [src]="url+servicio.foto" alt="" class="img">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+      
+      <ion-card-content>
+        <ion-card-title>
+            {{servicio.nombre}}
+          </ion-card-title>
+          <div class="dv" >      
+              <h2><strong>Calificación : </strong>&nbsp; 
+                <label *ngFor="let e of servicio.estrellasAmarillas" id="{{e.id}}" >★</label>
+                <label *ngFor="let e of servicio.estrellasGrises" id="{{e.id}}" >★</label></h2>
+          </div>
+          <p ><ion-icon name="thumbs-up">&nbsp;Descuento de : {{servicio.descuento}}%</ion-icon></p>
+          <h2><strong>Categoria :</strong>&nbsp; {{servicio.categoria}}</h2>
+          <br>
+          <p> {{ servicio.descripcion }} </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</div>
+ 
+  <!-- <div>
+    <ion-list>
+    <button ion-item *ngFor="let servicio of inf " icon-left (click)="goToServicio(servicio)" color="white">
+        <ion-card>
+          <ion-grid>
+            <ion-row><ion-col>
+                <img [src]="servicio.foto" alt="" class="img">
+            </ion-col></ion-row>
+           
+            <ion-row>
+              <ion-card-content>
+            <br>
+            <br>
+            <h1>{{servicio.nombre}}</h1>
+            <div class="p">
+            <p ><ion-icon name="thumbs-up">&nbsp;Descuento de : {{servicio.descuento}}%</ion-icon></p>
+            <br>
+            <h2 >Categoria:&nbsp; {{servicio.categoria}}</h2>
+            <p>{{ servicio.id_servicios }}</p>
+            
+          </div>
+          {{ servicio.descripcion }}
+        </ion-card-content>
+        </ion-row>
+  
+        </ion-grid>
+          </ion-card>
+    </button>     
+    </ion-list>
+
+  </div> -->
+
+ 
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div> 

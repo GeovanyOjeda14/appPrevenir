@@ -1,0 +1,52 @@
+page-servicio {
+
+
+	.inp{
+		text-decoration-line: inherit;
+		text-decoration-color: #00AEEF;
+		text-decoration-style: solid;
+	}
+	.embed-container {
+		position: relative;
+		padding-bottom: 56.25%;
+		height: 0;
+		overflow: hidden;
+	}
+	.embed-container iframe {
+		position: absolute;
+		top:0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+ion-fab{
+	bottom:1em;
+	right:1em;
+
+button{
+	background-color:#EB1310 !important;
+	font-size:1.5em !important;
+  }
+ }
+
+ .dv{
+    
+	#gris {
+	  color: grey;
+	  font-size: 30px;
+	}
+
+	.clasificacion {
+	  // direction: rtl;
+	  text-align: left;
+	  unicode-bidi: bidi-override;
+	}
+	 
+	#amarilla{
+	  color: orange;
+	  font-size: 30px;
+	}    
+   
+  }
+
+}

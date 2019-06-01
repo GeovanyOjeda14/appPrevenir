@@ -1,0 +1,211 @@
+<!--
+  Generated template for the CitasPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Mis citas</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <div *ngIf="!global.admin && !global.medico">
+     
+
+    <ion-segment [(ngModel)]="mymodel">
+      <ion-segment-button class="segment"value="segment1">
+        <p class="p">Mis citas</p> 
+      </ion-segment-button>
+      <ion-segment-button  class="segment" value="segment2">
+      <p class="p">Beneficiarios</p> 
+      </ion-segment-button>
+      <ion-segment-button  class="segment" value="segment3">
+        <p class="p">Mascotas</p> 
+        </ion-segment-button>
+  </ion-segment>
+  
+  <div [ngSwitch]="mymodel">
+  
+    <div *ngSwitchCase="'segment1'" >
+
+      <div class="btn">
+          <button ion-button round block color="energized" (click)="goToHistorial('user')" icon-left>
+              <ion-icon name="list-box"></ion-icon>
+            Ver historial</button>
+      </div>
+       
+
+      <ion-list>
+        <div *ngFor="let c of inf">
+          <ion-item>
+      <ion-card>
+        <ion-card-header>{{c.nombre}}</ion-card-header>
+        <ion-card-content>
+          <p><strong>Fecha :</strong>  {{c.fecha}}</p>
+          <p><strong>Hora :</strong>  {{c.hora}}</p>
+          
+          <br>
+          <button ion-button icon-left  (click)="ver(c)">
+            <ion-icon name="eye"></ion-icon>
+            Ver</button>
+            <button ion-button icon-left color="danger"  (click)="eliminar(c.id_eventos)">
+              <ion-icon name="trash"></ion-icon>
+              Eliminar</button>
+        </ion-card-content>
+      </ion-card>
+      </ion-item>
+      </div>
+      </ion-list>
+
+    
+      <div *ngIf="mostrar">
+         <br>
+        <h1 class="h1" >No hay citas disponibles</h1>
+      </div>
+    </div>
+
+
+    <div *ngSwitchCase="'segment2'">
+        <div class="btn">
+            <button ion-button round block color="energized" (click)="goToHistorial('beneficiario')" icon-left>
+                <ion-icon name="list-box"></ion-icon>
+              Ver historial</button>
+        </div>
+
+        <ion-list>
+            <div *ngFor="let c of infBeneficiarios">
+              <ion-item>
+          <ion-card>
+            <ion-card-header>{{c.nombre}}</ion-card-header>
+            <ion-card-content>
+              <p>Nombre : {{c.nombreU}}</p>
+              <p>Fecha : {{c.fecha}}</p>
+              <p>Hora : {{c.hora}}</p>
+              
+              <br>
+              <button ion-button icon-left  (click)="ver(c)">
+                <ion-icon name="eye"></ion-icon>
+                Ver</button>
+                <button ion-button icon-left color="danger"  (click)="eliminar(c.id_eventos)">
+                  <ion-icon name="trash"></ion-icon>
+                  Eliminar</button>
+            </ion-card-content>
+          </ion-card>
+          </ion-item>
+          </div>
+          </ion-list>
+    
+          <div *ngIf="mostrarBene">
+             <br>
+            <h1 class="h1" >No hay citas disponibles</h1>
+          </div>
+
+
+    </div>
+
+    <div *ngSwitchCase="'segment3'">
+
+        <div class="btn">
+            <button ion-button round block color="energized" (click)="goToHistorial('mascota')" icon-left>
+                <ion-icon name="list-box"></ion-icon>
+              Ver historial</button>
+        </div>
+      <ion-list>
+        <div *ngFor="let m of infMascotas">
+          <ion-item>
+      <ion-card>
+        <ion-card-header>{{m.nombre}}</ion-card-header>
+        <ion-card-content>
+          <p>Nombre : {{m.nombreU}}</p>
+          <p>Fecha : {{m.fecha}}</p>
+          <p>Hora : {{m.hora}}</p>
+          
+          <br>
+          <button ion-button icon-left  (click)="ver(m)">
+            <ion-icon name="eye"></ion-icon>
+            Ver</button>
+            <button ion-button icon-left color="danger"  (click)="eliminar(m.id_eventos,true)">
+              <ion-icon name="trash"></ion-icon>
+              Eliminar</button>
+        </ion-card-content>
+      </ion-card>
+      </ion-item>
+      </div>
+      </ion-list>
+      <div *ngIf="mostrarMascota">
+        <br>
+       <h1 class="h1" >No hay citas disponibles</h1>
+     </div>
+    </div>
+  </div>
+
+  
+</div>
+
+<div *ngIf="global.admin && !global.medico">
+
+<h4 class="h4" *ngIf="mostrar">No tienes servicios, crea una publicación</h4>
+
+    <ion-list>
+      <div class="item">
+        <ion-item  *ngFor="let s of servicio" (click)="verCitas(s.id_servicios,s.nombre,s.categoria)">
+          <h2>{{s.nombre}}</h2>
+          <p>{{s.descripcion}}</p>
+          <button ion-button clear item-end left-icon ><ion-icon name="eye"></ion-icon></button>
+        </ion-item>
+      </div>
+      </ion-list>
+    </div>
+
+    <div *ngIf="!global.admin && global.medico">
+      
+ 
+      <ion-list class="accordion-list">
+        <ion-list-header *ngFor="let item of infMedico; let i = index" no-lines no-padding>
+          
+            <button ion-item (click)="toggleSection(i)" detail-none [ngClass]="{'section-active': item.open, 'section': !item.open}">
+                <ion-icon item-left name="arrow-forward" *ngIf="!item.open"></ion-icon>
+                <ion-icon item-left name="arrow-down" *ngIf="item.open"></ion-icon>
+                <ion-row>
+                  <!-- <ion-col col-8>{{ item.hora }}</ion-col> -->
+                  <ion-col> {{ item.provedor }}</ion-col>
+                </ion-row>
+                    
+              </button>
+              <ion-list *ngIf="item.serv && item.open" no-lines>
+
+                <ion-list-header *ngIf="item.serv.length == 0">
+                  <ion-item>
+                    <h2>No tienes servicios asociados con este provedor.</h2>
+                  </ion-item>
+                </ion-list-header>
+                
+                       
+                  <ion-list-header *ngFor="let child of item.serv; let j = index" no-padding>
+
+                    <ion-item *ngIf="!child.serv" ion-item detail-none class="child-item" text-wrap>          
+                        <h2>{{ child.nombre}}</h2>  
+                        <button ion-button outline item-end (click)="verCita(child)">Ver</button> 
+                        <button ion-button outline color ="cafe" item-end (click)="verComentarios(child)">Comentarios</button>        
+                    </ion-item> 
+                  </ion-list-header>
+
+          </ion-list>
+            
+        </ion-list-header>
+      </ion-list>
+
+
+    </div>
+
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div> 

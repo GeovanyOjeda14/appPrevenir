@@ -1,0 +1,434 @@
+<!--
+  Generated template for the UserPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Mi cuenta</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<!-- ----------------------------------- AVATAR ---------------------------------------------- -->
+
+<ion-content padding>
+<div class="img">
+  <img *ngIf="!base64Image" id="userImg" [src]="foto" alt="nd" (click)="verImg(foto)">
+  <img *ngIf="base64Image" id="userImg" [src]="base64Image | youtube" alt="nd">
+  <ion-fab >
+    <button ion-fab mini (click)="openGalery()">
+      <ion-icon name="cloud-upload"></ion-icon>
+    </button>
+  </ion-fab>
+</div>
+<button *ngIf="base64Image" icon-left ion-button block round (click)="guardarAvatar()">
+  <ion-icon name="archive"></ion-icon>
+  Guardar Avatar</button>
+
+<!-- ------------------------------ FORMULARIO USER ---------------------------------------------- -->
+
+
+
+  <div *ngIf="!global.admin && !global.medico">
+  <form [formGroup]="datosUser" (ngSubmit)="datosUsr()"  novalidate>
+  <div class="info">
+    <h3>Informacion de mi cuenta</h3>
+    <ion-item>
+      <ion-label>Pais</ion-label>
+      <ion-select multiple="false" >
+          <ion-option *ngFor="let p of paises;let i = index" [selected]="i == 4" [value]="">{{p.nombre}}</ion-option>
+      </ion-select>
+    </ion-item>
+      <ion-item>
+        <ion-label>
+          <ion-icon name="mail"></ion-icon>
+        </ion-label>
+        <ion-input placeholder="ejemplo@mail.com" type="email" formControlName="email" readonly></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label>
+            <ion-icon name="person"></ion-icon>
+          </ion-label>
+          <ion-input placeholder="Ingresa tu nombre *" type="text" formControlName="nombres"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="datosUser.get('nombres').errors && datosUser.get('nombres').dirty">
+            <p color="danger" ion-text *ngIf="datosUser.get('nombres').hasError('required')">* El campo es requerido</p>
+            <p color="danger" ion-text *ngIf="datosUser.get('nombres').hasError('minlength')">Cantidad minima de caracteres (3)</p>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <ion-icon name="person"></ion-icon>
+          </ion-label>
+          <ion-input placeholder="Ingresa tus apellidos *" type="text" formControlName="apellidos"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="datosUser.get('apellidos').errors && datosUser.get('apellidos').dirty">
+            <p color="danger" ion-text *ngIf="datosUser.get('apellidos').hasError('required')">* El campo es requerido</p>
+            <p color="danger" ion-text *ngIf="datosUser.get('apellidos').hasError('minlength')">Cantidad minima de caracteres (3)</p>
+        </ion-item>
+  </div>
+  <div class="contacto">
+    <h3>Datos de contacto</h3>
+    <ion-item>
+            <ion-label>
+              <ion-icon name="card"></ion-icon>
+            </ion-label>
+            <ion-input placeholder="Ingresa tu identificación *" type="number" formControlName="identificacion"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="datosUser.get('identificacion').errors && datosUser.get('identificacion').dirty">
+            <p color="danger" ion-text *ngIf="datosUser.get('identificacion').hasError('required')">* El campo es requerido</p>
+            <p color="danger" ion-text *ngIf="datosUser.get('identificacion').hasError('pattern')">* El campo solo acepta numeros</p>
+            
+          </ion-item>
+          <ion-item>
+              <ion-label>
+                <ion-icon name="locate"></ion-icon>
+              </ion-label>
+              <ion-input placeholder="Ingresa tu dirección" type="text"  formControlName="direccion" ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label icon-left>
+                <ion-icon name="calendar"></ion-icon>
+                Fecha nacimiento *</ion-label>
+              <ion-datetime *ngIf="!fechaNacimiento" displayFormat="DD/MM/YYYY" formControlName="fecha" doneText="Aceptar" cancelText="Cancelar"></ion-datetime>
+              <ion-input type="text" *ngIf="fechaNacimiento" formControlName="fecha2" readonly></ion-input>
+            </ion-item>
+
+<!-- 
+            <ion-item>
+              <ion-label>Departamento</ion-label>
+              <ion-select multiple="false" (ionChange)="departamentoSelect($event);" cancelText="cancelar">
+                <ion-option *ngFor="let dpt of dptms;let i = index" [value]="dpt.id_departamento"  >{{dpt.nombre}}</ion-option>     
+              </ion-select>
+            </ion-item>
+            
+            <ion-item>
+              <ion-label>Municipio</ion-label>
+              <ion-select multiple="false" (ionChange)="municipioSelect($event);" cancelText="cancelar">
+                  <ion-option *ngFor="let mnp of mncps;let i = index" [value]="mnp.id_municipio">{{mnp.nombre}}</ion-option>
+                
+              </ion-select>
+            </ion-item> -->
+
+            <ion-item>
+              <ion-label>Departamento</ion-label>
+              <ion-select multiple="false" (ionChange)="departamentoSelect($event);" cancelText="cancelar">
+                <ion-option *ngFor="let dpt of dptms;let i = index" [selected]="i == posisionDtp" [value]="dpt.id_departamento"  >{{dpt.nombre}}</ion-option>     
+              </ion-select>
+            </ion-item>
+            
+             <ion-item>
+              <ion-label>Municipio</ion-label>
+              <ion-select multiple="false" (ionChange)="municipioSelect($event);" cancelText="cancelar">
+                  <ion-option *ngFor="let mnp of mncps;let i = index" [selected]="i == posisionMnp" [value]="mnp.id_municipio"  >{{mnp.nombre}}</ion-option>
+                
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>
+                  <ion-icon name="call"></ion-icon>
+                </ion-label>
+                <ion-input placeholder="Ingresa tu numero de contacto *" type="number" formControlName="telefono"></ion-input>
+              </ion-item>
+              <ion-item *ngIf="datosUser.get('telefono').errors && datosUser.get('telefono').dirty">
+                  <p color="danger" ion-text *ngIf="datosUser.get('telefono').hasError('required')">* El campo es requerido</p>
+                  <p color="danger" ion-text *ngIf="datosUser.get('telefono').hasError('pattern')">* El campo solo acepta numeros</p>
+              </ion-item>
+              <ion-item>
+                  <ion-label>
+                    <ion-icon name="logo-whatsapp"></ion-icon>
+                  </ion-label>
+                  <ion-input placeholder="Ingresa tu WhatsApp *" type="number" formControlName="whats"></ion-input>
+                </ion-item>       
+  </div>
+
+  <button icon-left ion-button block round [disabled]="!this.datosUser.valid">
+    <ion-icon name="archive"></ion-icon>
+    Guardar </button>
+
+  </form>
+</div>
+
+<!--   --------------------- FORMULARIO PROVEDOR -------------------------------------------------- -->
+
+<div *ngIf="global.admin && !global.medico">
+    <form [formGroup]="datosAdmin" (ngSubmit)="datosProv()"  novalidate>
+    <div class="info">
+        <h3>Informacion de mi cuenta</h3>
+        <ion-item>
+          <ion-label>Pais</ion-label>
+          <ion-select multiple="false" >
+              <ion-option *ngFor="let p of paises;let i = index" [selected]="i == 4" [value]="">{{p.nombre}}</ion-option>
+          </ion-select>
+        </ion-item>
+          <ion-item>
+              <ion-label>
+                <ion-icon name="mail"></ion-icon>
+              </ion-label>
+              <ion-input placeholder="ejemplo@mail.com" type="email" formControlName="email" readonly></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>
+                  <ion-icon name="person"></ion-icon>
+                </ion-label>
+                <ion-input placeholder="* ingresa tu nombre" type="text" formControlName="nombres"></ion-input>
+              </ion-item>
+              <ion-item *ngIf="datosAdmin.get('nombres').errors && datosAdmin.get('nombres').dirty">
+                  <p color="danger" ion-text *ngIf="datosAdmin.get('nombres').hasError('required')">* El campo es requerido</p>
+                  <p color="danger" ion-text *ngIf="datosAdmin.get('nombres').hasError('minlength')">Cantidad minima de caracteres (3)</p>
+              </ion-item>
+    </div>
+    <div class="contacto">
+        <h3>Datos de contacto</h3>
+       
+              <ion-item>
+                  <ion-label>
+                    <ion-icon name="locate"></ion-icon>
+                  </ion-label>
+                  <ion-input placeholder="igresa tu dirección" type="text" formControlName="direccion"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="datosAdmin.get('direccion').errors && datosAdmin.get('direccion').dirty">
+                    <p color="danger" ion-text *ngIf="datosAdmin.get('direccion').hasError('required')">* El campo es requerido</p> 
+                </ion-item>
+                <ion-item>
+                    <ion-label>
+                      <ion-icon name="call"></ion-icon>
+                    </ion-label>
+                    <ion-input placeholder="igresa tu número de contacto" type="number" formControlName="telefono"></ion-input>
+                  </ion-item>
+                  <ion-item *ngIf="datosAdmin.get('telefono').errors && datosAdmin.get('telefono').dirty">
+                      <!-- <p color="danger" ion-text *ngIf="datosAdmin.get('telefono').hasError('required')">* El campo es requerido</p> -->
+                      <p color="danger" ion-text *ngIf="datosAdmin.get('telefono').hasError('pattern')">* El campo solo acepta numeros</p> 
+                  </ion-item>
+                  <ion-item>
+                      <ion-label>
+                        <ion-icon name="logo-whatsapp"></ion-icon>
+                      </ion-label>
+                      <ion-input placeholder="igresa tu whatsapp" type="number" formControlName="whats"></ion-input>
+                    </ion-item>       
+      </div>
+
+  <div class="proovedor">
+    <h3>Información proovedor</h3>
+    
+      <ion-item>
+          <ion-label>
+            <ion-icon name="contacts"></ion-icon>
+          </ion-label>
+          <ion-input placeholder="* Ingresa el nombre de tu empresa" type="text" formControlName="nombres"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="datosAdmin.get('nombres').errors && datosAdmin.get('nombres').dirty">
+            <p color="danger" ion-text *ngIf="datosAdmin.get('nombres').hasError('required')">* El campo es requerido</p>
+            <p color="danger" ion-text *ngIf="datosAdmin.get('nombres').hasError('minlength')">Cantidad minima de caracteres (3)</p>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>
+              <ion-icon name="person"></ion-icon>
+            </ion-label>
+            <ion-input placeholder="* Ingresa tu Nit / Tarjeta profecional" formControlName="nit"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="datosAdmin.get('nit').errors && datosAdmin.get('nit').dirty">
+              <p color="danger" ion-text *ngIf="datosAdmin.get('nit').hasError('required')">* El campo es requerido</p>
+              <p color="danger" ion-text *ngIf="datosAdmin.get('nit').hasError('pattern')">* El campo solo acepta numeros</p> 
+          </ion-item>
+
+          <ion-item>
+              <ion-label>
+                <ion-icon name="at"></ion-icon>
+              </ion-label>
+              <ion-input placeholder="Ingresa link de tu sitio web" formControlName="web"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                <ion-icon name="logo-youtube"></ion-icon>
+              </ion-label>
+              <ion-input placeholder="Pega el link de tu video" formControlName="youtube"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label floating>* Describenos tu empresa</ion-label>
+              <ion-textarea class="txt_area" formControlName="descripcion"></ion-textarea>
+          </ion-item>
+              <ion-item *ngIf="datosAdmin.get('descripcion').errors && datosAdmin.get('descripcion').dirty">
+                  <p color="danger" ion-text *ngIf="datosAdmin.get('descripcion').hasError('required')">* El campo es requerido</p>
+                <p color="danger" ion-text *ngIf="datosAdmin.get('descripcion').hasError('minlength')">Cantidad minima caracteres (40)</p>
+              </ion-item>      
+  </div>
+
+  <button icon-left ion-button block round >
+      <ion-icon name="archive"></ion-icon>
+      Guardar </button>
+
+</form>
+</div>
+
+<!-- ---------------------------------------FORMULARIO MEDICO -------------------------------------------------- -->
+
+<div *ngIf="!global.admin && global.medico">
+
+  <form [formGroup]="datosMedico" (ngSubmit)="datosMedic()"  novalidate>
+    <div class="info">
+      <h3>Informacion de mi cuenta</h3>
+      <ion-item>
+        <ion-label>Pais</ion-label>
+        <ion-select multiple="false" >
+            <ion-option *ngFor="let p of paises;let i = index" [selected]="i == 4" [value]="">{{p.nombre}}</ion-option>
+        </ion-select>
+      </ion-item>
+        <ion-item>
+          <ion-label>
+            <ion-icon name="mail"></ion-icon>
+          </ion-label>
+          <ion-input placeholder="ejemplo@mail.com" type="email" formControlName="email" readonly></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>
+              <ion-icon name="person"></ion-icon>
+            </ion-label>
+            <ion-input placeholder="* ingresa tu nombre" type="text" formControlName="nombres"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="datosMedico.get('nombres').errors && datosMedico.get('nombres').dirty">
+              <p color="danger" ion-text *ngIf="datosMedico.get('nombres').hasError('required')">* El campo es requerido</p>
+              <p color="danger" ion-text *ngIf="datosMedico.get('nombres').hasError('minlength')">Cantidad minima de caracteres (3)</p>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>
+              <ion-icon name="person"></ion-icon>
+            </ion-label>
+            <ion-input placeholder="* ingresa tus apellidos" type="text" formControlName="apellidos"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="datosMedico.get('apellidos').errors && datosMedico.get('apellidos').dirty">
+              <p color="danger" ion-text *ngIf="datosMedico.get('apellidos').hasError('required')">* El campo es requerido</p>
+              <p color="danger" ion-text *ngIf="datosMedico.get('apellidos').hasError('minlength')">Cantidad minima de caracteres (3)</p>
+          </ion-item>
+    </div>
+    <div class="contacto">
+      <h3>Datos de contacto</h3>
+
+            <ion-item>
+              <ion-label>
+                <ion-icon name="card"></ion-icon>
+              </ion-label>
+              <ion-input placeholder="* igresa tu identificación" type="number" formControlName="cedula" readonly></ion-input>
+            </ion-item>
+            <ion-item *ngIf="datosMedico.get('cedula').errors && datosMedico.get('cedula').dirty">
+              <p color="danger" ion-text *ngIf="datosMedico.get('cedula').hasError('required')">* El campo es requerido</p>
+              <p color="danger" ion-text *ngIf="datosMedico.get('cedula').hasError('pattern')">* El campo solo acepta numeros</p>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>
+                <ion-icon name="card"></ion-icon>
+              </ion-label>
+              <ion-input placeholder="* igresa tu tarjeta profecional" type="number" formControlName="tarjetaProfecional" readonly></ion-input>
+            </ion-item>
+            <ion-item *ngIf="datosMedico.get('tarjetaProfecional').errors && datosMedico.get('tarjetaProfecional').dirty">
+              <p color="danger" ion-text *ngIf="datosMedico.get('tarjetaProfecional').hasError('required')">* El campo es requerido</p>
+              <p color="danger" ion-text *ngIf="datosMedico.get('tarjetaProfecional').hasError('pattern')">* El campo solo acepta numeros</p>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>
+                <ion-icon name="person"></ion-icon>
+              </ion-label>
+              <ion-input placeholder="* ingresa tu titulo" type="text" formControlName="especialidad"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="datosMedico.get('especialidad').errors && datosMedico.get('especialidad').dirty">
+                <p color="danger" ion-text *ngIf="datosMedico.get('especialidad').hasError('required')">* El campo es requerido</p>
+                <p color="danger" ion-text *ngIf="datosMedico.get('especialidad').hasError('minlength')">Cantidad minima de caracteres (2)</p>
+            </ion-item>
+           
+              <ion-item>
+                  <ion-label>
+                    <ion-icon name="call"></ion-icon>
+                  </ion-label>
+                  <ion-input placeholder="ingresa tu numero de contacto" type="number" formControlName="telefono"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="datosMedico.get('telefono').errors && datosMedico.get('telefono').dirty">
+                    <p color="danger" ion-text *ngIf="datosMedico.get('telefono').hasError('required')">* El campo es requerido</p>
+                    <p color="danger" ion-text *ngIf="datosMedico.get('telefono').hasError('pattern')">* El campo solo acepta numeros</p>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label>
+                      <ion-icon name="logo-whatsapp"></ion-icon>
+                    </ion-label>
+                    <ion-input placeholder="igresa tu whatsapp" type="number" formControlName="whats"></ion-input>
+                  </ion-item>     
+                  
+                  <ion-item *ngIf="datosMedico.get('whats').errors && datosMedico.get('whats').dirty">
+                    <p color="danger" ion-text *ngIf="datosMedico.get('whats').hasError('required')">* El campo es requerido</p>
+                    <p color="danger" ion-text *ngIf="datosMedico.get('whats').hasError('pattern')">* El campo solo acepta numeros</p>
+                </ion-item>
+    </div> 
+    </form><br>
+
+    <div *ngIf="estudiosBol">
+      <h3 class="contacto">Estudios Medicos</h3>
+    </div>
+
+  <div>
+    <ion-card *ngFor="let t of titulos">
+      <ion-card-header>{{t.nombre}}</ion-card-header>
+      <ion-card-content>
+        <h3><strong>Institución :</strong>{{t.institucion}}</h3>
+        <h3><strong>Fecha de inicio :</strong>{{t.start}}</h3>
+        <h3><strong>Fecha de finalización:</strong>{{t.end}}</h3>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div class="estudios" *ngFor="let att of anArray; let idx = index">
+    <ion-item >
+        <ion-label >
+          <ion-icon name="paper"></ion-icon>
+        </ion-label>
+        <ion-input type="text" placeholder="Nombre del estudio" [(ngModel)]="anArray[idx].value"></ion-input>
+      </ion-item>
+
+        <ion-item >
+            <ion-label >
+              <ion-icon name="book"></ion-icon>
+            </ion-label>
+            <ion-input type="text" placeholder="Nombre de la institucion" [(ngModel)]="anArray2[idx].value"></ion-input>
+        </ion-item>
+
+        <ion-item >
+            <ion-label icon-left>
+              <ion-icon name="calendar"></ion-icon>
+              Fecha de Inicio  *</ion-label>
+            <ion-datetime  displayFormat="DD/MM/YYYY" doneText="Aceptar" cancelText="Cancelar" [(ngModel)]="anArray3[idx].value"></ion-datetime>
+        </ion-item>
+    
+        <ion-item >
+            <ion-label icon-left>
+              <ion-icon name="calendar"></ion-icon>
+              Fecha de finalización  *</ion-label>
+            <ion-datetime  displayFormat="DD/MM/YYYY" doneText="Aceptar" cancelText="Cancelar" [(ngModel)]="anArray4[idx].value"></ion-datetime>
+        </ion-item>
+  </div>
+
+    <button *ngIf="eliminarFormEstudios" ion-button icon-left round block color="danger" (click)="Delete()">
+    <ion-icon name="trash"> </ion-icon>
+    Eliminar Formulario
+    </button>
+
+    <button ion-button icon-left block round color="energized" (click)="Add()">
+      <ion-icon name="create"></ion-icon>
+      Agregar estudios</button>
+
+    <button icon-left ion-button block round (click)="datosMedic()" [disabled]="!this.datosMedico.valid">
+      <ion-icon name="archive"></ion-icon>
+      Guardar </button>
+
+</div>
+
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div>

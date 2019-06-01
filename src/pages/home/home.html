@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+  	<button ion-button menuToggle>
+  		<ion-icon name="menu"></ion-icon>
+  	</button>
+    <ion-title>Prevenir express</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+<!-- <ion-slides spaceBetween="50" pager>
+	<ion-slide><img src="/assets/imgs/slider/banner1a.png" alt=""></ion-slide>
+	<ion-slide><img src="/assets/imgs/slider/banner3a.png" alt=""></ion-slide>
+	<ion-slide><img src="/assets/imgs/slider/porquenosprefieren.png" alt=""></ion-slide>
+</ion-slides> -->
+
+<ion-slides autoplay="5000" loop="true" speed="3000" pager>
+  <ion-slide *ngFor="let slide of slideData">
+    <img src="{{slide.image}}" />
+  </ion-slide>
+</ion-slides>
+
+<button ion-button icon-left color="danger"  (click)="misCitas()" class="btnCitas" round block>
+	<ion-icon name="list-box"></ion-icon>
+Mis citas</button>
+<!-- <br> -->
+<button *ngIf="global.admin" ion-button icon-left color="prevenir"  (click)="adminServs()" class="btnCitas" round block>
+	<ion-icon name="list-box"></ion-icon>
+Administrar servicios</button>
+<!-- <br> -->
+<!-- <button ion-button icon-left color="energized"  (click)="misCitas()" class="btnCitas" round block>
+	<ion-icon name="list-box"></ion-icon>
+Mi cuenta</button> -->
+
+
+
+
+  <!-- <ion-item>
+    <ion-label>Categorias</ion-label>
+    <ion-select multiple="false" (ionChange)="categoriaSelect($event);">
+      <ion-option *ngFor="let cate of ctgas;let i = index" [value]="cate.id_categoria"  >{{cate.nombre}}</ion-option>     
+    </ion-select>
+  </ion-item>
+<ion-input type="text" placeholder="¿ Que estas buscando ?" [(ngModel)]="busqueda"></ion-input> -->
+
+<p class="p1"> ¿Donde quieres ser atendido? </p>
+<ion-item>
+  <ion-label>Departamento</ion-label>
+  <ion-select multiple="false" (ionChange)="departamentoSelect($event);" cancelText="cancelar">
+    <ion-option *ngFor="let dpt of dptms;let i = index" [value]="dpt.id_departamento"  >{{dpt.nombre}}</ion-option>     
+  </ion-select>
+</ion-item>
+
+<ion-item>
+  <ion-label>Municipio</ion-label>
+  <ion-select multiple="false" (ionChange)="municipioSelect($event);" cancelText="cancelar">
+      <ion-option *ngFor="let mnp of mncps;let i = index" [value]="mnp.id_municipio">{{mnp.nombre}}</ion-option>
+    
+  </ion-select>
+</ion-item>
+<p class="p1"> Encuentra el servicio que estas buscando </p>
+
+<button ion-button icon-left color="danger" class="btnCitas" round block (click)="buscar()">
+	<ion-icon name="search"></ion-icon>
+    Buscar proveedor
+</button>
+<button ion-button icon-left  class="btnCitas" round block (click)="buscar(true)">
+    <ion-icon name="paw"></ion-icon>
+      Buscar Veterinario
+  </button>
+
+
+</ion-content>
+
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div>

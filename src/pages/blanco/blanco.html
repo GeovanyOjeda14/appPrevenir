@@ -1,0 +1,44 @@
+<ion-content padding>
+
+    <div *ngIf="locked">
+
+        <div class="logo_welcome">
+                <img src="/assets/imgs/logo-grande-negro.png" alt="">
+              </div>
+
+              <p>* Ingresa el codigo que esta en el correo, si no has recibo el correo, puedes revisa en correos no deseados o spam.</p>
+            
+              <div class="contenido">
+             <div>
+                <ion-item>
+                    <ion-label> <ion-icon name="key"></ion-icon></ion-label>
+                    <ion-input type="text" placeholder="Ingresa tu codigo de confirmación" [(ngModel)]="codigo"></ion-input>
+                </ion-item>
+            
+            </div>
+            
+            
+                <button ion-button round block color="prevenir" icon-left (click)="confirmar()">
+                    <ion-icon name="checkmark"></ion-icon>
+                    Confirmar</button>
+                <button ion-button round block color="energized" icon-left (click)="reenviar()">
+                    <ion-icon name="mail"></ion-icon>
+                    Reenviar codigo</button>
+                    <button ion-button round block color="secondary" icon-left (click)="goToRegistro()">
+                        <ion-icon name="arrow-round-back"></ion-icon>
+                        Ir a registro</button>
+
+      </div>
+    </div>
+
+</ion-content>
+
+<div class="loading" *ngIf="laod">
+    <img src="/assets/imgs/pulso.gif" alt="">
+</div>
+
+
+
+    
+
+ 

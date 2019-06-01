@@ -1,0 +1,123 @@
+<!--
+  Generated template for the CitasProvedorPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{nombre}}</ion-title>
+
+    <ion-buttons end>
+        <button ion-button (click)="calendar.today()" icon-left>
+          <ion-icon name="calendar"></ion-icon> Hoy
+          </button>
+    </ion-buttons>
+    
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <div>
+      <ion-calendar #calendar lang="es"
+      [events]="currentEvents"
+       (onDaySelect)="onDaySelect($event)" 
+      (onMonthSelect)="onMonthSelect($event)"
+      ></ion-calendar>
+    </div>
+    <br *ngIf="hr">
+    <h1 *ngIf="hr" class="h1">No disponible</h1>
+    <div *ngIf="!hr">
+      <div class="medio">
+        <h2>Mañana</h2>
+    
+      <ion-list class="accordion-list">
+        <ion-list-header *ngFor="let item of maniana; let i = index" no-lines no-padding>
+          
+            <button ion-item (click)="toggleSection(i)" detail-none [ngClass]="{'section-active': item.open, 'section': !item.open}">
+                <ion-icon item-left name="arrow-forward" *ngIf="!item.open"></ion-icon>
+                <ion-icon item-left name="arrow-down" *ngIf="item.open"></ion-icon>
+                <ion-row>
+                  <ion-col col-8>{{ item.hora }}</ion-col>
+                  <ion-col> Citas :{{ item.echas }}</ion-col>
+                </ion-row>
+                    
+              </button>
+              <ion-list *ngIf="item.citas && item.open" no-lines>
+                  <!-- Second Level -->
+                    
+                  <ion-list-header *ngFor="let child of item.citas; let j = index" no-padding>
+                      <ion-item *ngIf="!child.citas" ion-item detail-none class="child-item" text-wrap>
+                          <h2>{{ child.nombres }}</h2>
+          
+                          <!-- <button ion-button outline item-end color="danger" (click)="eliminar(child.id_eventos)">Eliminar</button> -->
+                          <button ion-button outline item-end (click)="verCita(child)">Ver</button>
+                        </ion-item>
+    
+            </ion-list-header>
+
+            <ion-item id="sacarCita">
+                <button *ngIf="!medico" ion-button icon-left outline="true" color="secondary" [disabled]="item.disponible === false" (click)="sacarCita(item.hora)">
+                  <ion-icon name="medkit"></ion-icon>
+                  Sacar cita
+                </button>
+            </ion-item>
+
+          </ion-list>
+            
+        </ion-list-header>
+      </ion-list>
+    </div>
+    
+    <div>
+      <h2>Tarde</h2>
+      <ion-list class="accordion-list">
+          <ion-list-header *ngFor="let item of tarde; let i = index" no-lines no-padding>
+            
+              <button ion-item (click)="toggleSection2(i)" detail-none [ngClass]="{'section-active': item.open, 'section': !item.open}">
+                  <ion-icon item-left name="arrow-forward" *ngIf="!item.open"></ion-icon>
+                  <ion-icon item-left name="arrow-down" *ngIf="item.open"></ion-icon>
+                  <ion-row>
+                      <ion-col col-8>{{ item.hora }}</ion-col>
+                      <ion-col> Citas :{{ item.echas }}</ion-col>
+                    </ion-row>
+                </button>
+                <ion-list *ngIf="item.citas && item.open" no-lines>
+                    <!-- Second Level -->
+                   
+                
+                    <ion-list-header *ngFor="let child of item.citas; let j = index" no-padding>
+                      
+                        <ion-item *ngIf="!child.citas" ion-item detail-none class="child-item" text-wrap>
+                            <h2>{{ child.nombres }}</h2>
+                 
+                            <!-- <button ion-button outline item-end color="danger" (click)="eliminar(child.id_eventos)">Eliminar</button> -->
+                            <button ion-button outline item-end (click)="verCita(child)">Ver</button>
+                          </ion-item>
+      
+              </ion-list-header>
+              <ion-item id="sacarCita">
+                  <button *ngIf="!medico" ion-button icon-left outline="true" color="secondary" (click)="sacarCita(item.hora)">
+                    <ion-icon name="medkit"></ion-icon>
+                    Sacar cita
+                  </button>
+
+                  
+              </ion-item>
+            </ion-list>
+              
+          </ion-list-header>
+        </ion-list>
+    </div>
+    </div>
+
+   
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div> 

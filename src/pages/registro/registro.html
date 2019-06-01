@@ -1,0 +1,136 @@
+<!--
+  Generated template for the RegistroPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-content padding>
+
+  <div *ngIf="registro">
+
+    <div class="logo">
+        <img src="/assets/imgs/logo-grande-negro.png" alt="">
+      </div>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Registrese con nosotros</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+      <div class="imgs">
+        <ion-list>
+          <button ion-item (click)="esUsuario()">
+            <img class="centrar" src="/assets/imgs/consumidor.png" alt="">
+            <p class="txt">Eres usuario</p>
+          </button>
+          <button ion-item (click)="esProveedor()">
+              <img class="centrar" src="/assets/imgs/proveedor.png" alt="">
+              <p class="txt">Eres proovedor</p>
+            </button>
+        </ion-list>
+      </div>
+      <button ion-button (click)="goToWelcome()" icon-left color="energized" round block>
+      <ion-icon name="arrow-round-back"></ion-icon>
+      Volver</button>
+
+  </div>
+
+  <div *ngIf="!registro && !cambioContrasena">
+    
+      <div class="logo_welcome">
+          <img src="/assets/imgs/logo-grande-negro.png" alt="">
+      </div>
+      <p>* Ingresa el correo con el cual te registraste, si el correo no llega recuerda revisar en correos no deseados o spam.</p>
+      <div class="contenido">
+
+        <form [formGroup]="datos" (ngSubmit)="email()"  novalidate>
+
+            <ion-item>
+                <ion-label floating>
+                  <ion-icon name="mail"></ion-icon>
+                  * Ingrese su correo</ion-label>
+                <ion-input type="email" formControlName="email" ></ion-input>
+            </ion-item>
+            <ion-item *ngIf="datos.get('email').errors && datos.get('email').dirty">
+                <p color="danger" ion-text *ngIf="datos.get('email').hasError('required')">* El campo es requerido</p>
+                <p color="danger" ion-text *ngIf="datos.get('email').hasError('email')">Tipo de email no valido (ejemplo@mail.com)</p>
+              </ion-item>
+    
+              <button ion-button type="submit" round block icon-left color="prevenir">
+                <ion-icon name="send"></ion-icon>
+                Comprobar
+              </button>
+        </form>
+        
+      <button ion-button (click)="goToWelcome()" icon-left color="energized" round block>
+          <ion-icon name="arrow-round-back"></ion-icon>
+        Volver</button>
+
+        
+
+      </div>
+
+
+
+  </div>
+
+  <div *ngIf="!registro && cambioContrasena">
+    
+      <div class="logo_welcome">
+          <img src="/assets/imgs/logo-grande-negro.png" alt="">
+      </div>
+
+      <p>* Ingresa el codigo enviado al correo.</p>
+
+      <div class="contenido">
+
+          <form [formGroup]="datos" (ngSubmit)="contrasena()"  novalidate>
+
+              <ion-item>
+                  <ion-label><ion-icon name="alert"></ion-icon></ion-label>
+                  <ion-input type="text" formControlName="salt" placeholder="Ingrese el codigo"></ion-input>
+              </ion-item>               
+              <ion-item *ngIf="datos.get('salt').errors && datos.get('salt').dirty">
+                    <p color="danger" ion-text *ngIf="datos.get('salt').hasError('required')">* El campo es requerido</p>
+              </ion-item>
+
+              <ion-item>
+                  <ion-label><ion-icon name="key"></ion-icon></ion-label>
+                  <ion-input type="password" formControlName="pssw" placeholder="Ingrese la contraseña"></ion-input>
+              </ion-item>   
+              <ion-item *ngIf="datos.get('pssw').errors && datos.get('pssw').dirty">
+                    <p color="danger" ion-text *ngIf="datos.get('pssw').hasError('required')">* El campo es requerido</p>
+                    <p color="danger" ion-text *ngIf="datos.get('pssw').hasError('minlength')">Cantidad minima de caracteres (8)</p>
+              </ion-item>
+
+              <ion-item>
+                  <ion-label><ion-icon name="key"></ion-icon></ion-label>
+                  <ion-input type="password" formControlName="pssw2" placeholder="Confirma la contraseña"></ion-input>
+              </ion-item>   
+              <ion-item *ngIf="datos.get('pssw2').errors && datos.get('pssw2').dirty">
+                    <p color="danger" ion-text *ngIf="datos.get('pssw2').hasError('required')">* El campo es requerido</p>
+                    <p color="danger" ion-text *ngIf="datos.get('pssw2').hasError('minlength')">Cantidad minima de caracteres (8)</p>
+              </ion-item>
+
+              <button ion-button round block color="prevenir" type="submit" icon-left [disabled]="!this.datos.valid">
+                <ion-icon name="send"></ion-icon>
+                Confirmar
+              </button>
+
+          </form>
+          <button ion-button (click)="goToWelcome()" icon-left color="energized" round block>
+              <ion-icon name="arrow-round-back"></ion-icon>
+            Volver</button>
+        </div>
+
+      
+      </div>
+
+
+   
+      
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div> 

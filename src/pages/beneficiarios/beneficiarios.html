@@ -1,0 +1,112 @@
+<!--
+  Generated template for the BeneficiariosPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Beneficiarios</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+ 
+  
+
+    <div class="boton">
+      <button ion-button block round icon-left color="energized" [disabled]="disabled" (click)="goToAgregar()">
+        <ion-icon name="person-add"></ion-icon>
+        Agregar beneficiario</button>
+
+        <button ion-button block round icon-left color="secondary" [disabled]="disabledMascota" (click)="goToAgregarMascota()">
+            <ion-icon name="paw"></ion-icon>
+            Agregar Peludito</button>
+    </div>
+
+
+    <ion-segment [(ngModel)]="mymodel">
+        <ion-segment-button class="segment"value="segment1">
+          <p class="p">Beneficiarios</p> 
+        </ion-segment-button>
+        <ion-segment-button  class="segment" value="segment2">
+        <p class="p">Peluditos</p> 
+       
+        </ion-segment-button>
+    </ion-segment>
+    
+    <div [ngSwitch]="mymodel">
+    
+      <div *ngSwitchCase="'segment1'" >
+  
+        <ion-list>
+         
+            <ion-card *ngFor="let b of info" (click)="ver(b)">
+                <ion-card-header>{{b.nombres}}</ion-card-header>
+                <ion-card-content>
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col col-9> 
+                        <h3><strong>Identificacion : </strong> {{b.identificacion}}</h3>
+                        <h3><strong>Fecha nacimiento: </strong>{{b.fecha}}</h3>
+                        <h3><strong>No. Contacto : </strong>{{b.telefono}}</h3>
+                      </ion-col>
+                      <ion-col col-3>
+                        <img class="imgBeneficiario" [src]="b.avatar" alt="nd">
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                 
+                </ion-card-content>
+              </ion-card>
+            
+        </ion-list>
+  
+        <div *ngIf="mostrar">
+           <br>
+          <h2 class="h1" >No tienes beneficiarios registrados</h2>
+        </div>
+
+      </div>
+  
+  
+      <div *ngSwitchCase="'segment2'">
+          
+
+          <ion-list>
+         
+              <ion-card *ngFor="let m of infoMascotas" (click)="ver(m,true)">
+                  <ion-card-header>{{m.nombres}}</ion-card-header>
+                  <ion-card-content>
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col col-9> 
+                          <h3><strong>Especie : </strong> {{m.especie}}</h3>
+                          <h3><strong>Fecha nacimiento: </strong>{{m.fecha}}</h3>
+                          <h3><strong>Raza : </strong>{{m.raza}}</h3>
+                        </ion-col>
+                        <ion-col col-3>
+                          <img class="imgBeneficiario" [src]="m.avatar" alt="nd">
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                   
+                  </ion-card-content>
+                </ion-card>
+              
+          </ion-list>
+
+            <div *ngIf="mostrarPeluditos">
+               <br>
+              <h2 class="h1" >No tienes peluditos registrados</h2>
+            </div>
+      </div>
+    </div>
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div> 

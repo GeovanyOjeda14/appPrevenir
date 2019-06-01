@@ -1,0 +1,117 @@
+<!--
+  Generated template for the FormularioRegistroAdminPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-content padding>
+
+    <ion-col class="ion-padding-top ion-padding-bottom">
+        <ion-card>
+            <ion-card-header>
+              <ion-card-title>Registrese como Proveedor</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+          </ion-col>
+
+    <form [formGroup]="datos" (ngSubmit)="registrar()"  novalidate>
+      
+        <ion-item>
+          <ion-label>
+            <ion-icon name="person"></ion-icon>
+          </ion-label>
+          <ion-input placeholder="Nombre proveedor / Empresa *" type="text" formControlName="nombre"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="datos.get('nombre').errors && datos.get('nombre').dirty">
+            <p color="danger" ion-text *ngIf="datos.get('nombre').hasError('required')">* El campo es requerido</p>
+            <p color="danger" ion-text *ngIf="datos.get('nombre').hasError('minlength')">cantidad minima de caracteres (4)</p>
+            <p color="danger" ion-text *ngIf="datos.get('nombre').hasError('maxlength')">cantidad maxima de caracteres (40)</p>
+          </ion-item>
+        <ion-item>
+            <ion-label>
+              <ion-icon name="mail"></ion-icon>
+            </ion-label>
+            <ion-input placeholder="ejemplo@mail.com *" type="email" formControlName="email"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="datos.get('email').errors && datos.get('email').dirty">
+              <p color="danger" ion-text *ngIf="datos.get('email').hasError('required')">* El campo es requerido</p>
+              <p color="danger" ion-text *ngIf="datos.get('email').hasError('email')">Tipo de email no valido (ejemplo@mail.com)</p>
+            </ion-item>
+            <ion-item>
+                <ion-label>
+                  <ion-icon name="locate"></ion-icon>
+                </ion-label>
+                <ion-input placeholder="Dirección *" type="text" formControlName="direccion"></ion-input>
+              </ion-item>
+              <ion-item *ngIf="datos.get('direccion').errors && datos.get('direccion').dirty">
+                  <p color="danger" ion-text *ngIf="datos.get('direccion').hasError('required')">* El campo es requerido</p>
+                </ion-item>
+              <ion-item>
+                  <ion-label>
+                    <ion-icon name="card"></ion-icon>
+                  </ion-label>
+                  <ion-input placeholder="Nit / Tarjeta profesional *" type="number" formControlName="id"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="datos.get('id').errors && datos.get('id').dirty">
+                    <p color="danger" ion-text *ngIf="datos.get('id').hasError('required')">* El campo es requerido</p>
+                    <p color="danger" ion-text *ngIf="datos.get('id').hasError('min')">Solo numeros positivos</p>
+                    <p color="danger" ion-text *ngIf="datos.get('id').hasError('pattern')">* El campo solo acepta numeros</p>
+                    
+                  </ion-item>
+                <ion-item>
+                    <ion-label>
+                      <ion-icon name="call"></ion-icon>
+                    </ion-label>
+                    <ion-input placeholder="Teléfono *" type="number" formControlName="tel"></ion-input>
+                  </ion-item>
+                  <ion-item *ngIf="datos.get('tel').errors && datos.get('tel').dirty">
+                      <p color="danger" ion-text *ngIf="datos.get('tel').hasError('required')">* El campo es requerido</p>
+                      <p color="danger" ion-text *ngIf="datos.get('tel').hasError('min')">Solo numeros positivos</p>
+                      <p color="danger" ion-text *ngIf="datos.get('tel').hasError('pattern')">* El campo solo acepta numeros</p>
+                    </ion-item>
+                  
+                  <ion-item>
+                      <ion-label>
+                        <ion-icon name="logo-whatsapp"></ion-icon>
+                      </ion-label>
+                      <ion-input placeholder="Whatsapp" type="number"  formControlName="wsp"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label>
+                        <ion-icon name="key"></ion-icon>
+                      </ion-label>
+                      <ion-input placeholder="Contraseña *" type="password" formControlName="pssw"></ion-input>
+                    </ion-item>
+                    <ion-item *ngIf="datos.get('pssw').errors && datos.get('pssw').dirty">
+                        <p color="danger" ion-text *ngIf="datos.get('pssw').hasError('required')">* El campo es requerido</p>
+                        <p color="danger" ion-text *ngIf="datos.get('pssw').hasError('minlength')">cantidad minima de caracteres (8)</p>
+                      </ion-item>
+                      <ion-item>
+                        <ion-label>
+                          <ion-icon name="key"></ion-icon>
+                        </ion-label>
+                        <ion-input placeholder="Confirma Contraseña *" type="password" formControlName="confirmacion"></ion-input>
+                      </ion-item>
+                      <p *ngIf="confirm" style="color:red">Las contraseñas no coinciden</p>
+                      <ion-item *ngIf="datos.get('confirmacion').errors && datos.get('confirmacion').dirty">
+                          <p color="danger" ion-text *ngIf="datos.get('confirmacion').hasError('required')">* El campo es requerido</p>
+                          <p color="danger" ion-text *ngIf="datos.get('confirmacion').hasError('minlength')">cantidad minima de caracteres (8)</p>
+                        </ion-item>
+                        <br/>
+                    <button ion-button icon-left block round [disabled]="!this.datos.valid">
+                        <ion-icon name="person-add"></ion-icon>
+                        Registrar 
+                      </button>
+     
+    </form>
+   
+      <button ion-button (click)="goBack()" icon-left color="energized" round block>
+          <ion-icon name="arrow-round-back"></ion-icon>
+          Volver</button>
+
+</ion-content>
+
+<div class="loading" *ngIf="load">
+  <img src="/assets/imgs/pulso.gif" alt="">
+</div> 

@@ -1,0 +1,145 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+.toolbar-background{
+	background-color: #07A9DF;
+}
+.toolbar-title{
+	color:#EEEFF7;
+}
+.logo{
+    text-align: center;
+    padding-top: 40px;
+    padding-right: 50px;
+    padding-bottom: 30px;
+    padding-left: 50px;
+}
+
+#userImg{
+
+    //    border:1px solid black;
+     
+     /* cambia estos dos valores para definir el tamaño de tu círculo */
+     height: 200px;
+     width: 200px;
+     /* los siguientes valores son independientes del tamaño del círculo */
+     background-repeat: no-repeat;
+     background-position: 50%;
+     border-radius: 50%;
+     background-size: 100% auto;
+     border: 1px solid white;
+    }
+
+    
+.txt_area{
+    max-width: 100%; 
+    width: 100%;
+    height: 15vh;
+    border: 1px solid #DCDCDC;
+}  
+
+.p{
+    color: black;
+}
+
+//botones de beneficiario y medico
+.boton{
+    margin-bottom: 15px;
+}
+
+//botones formulario de busqueda de cedula, en agregar medico y agregar cita desde provedor
+.btns{
+    text-align: end;
+}
+
+//Estilos del acordeon en citas/medico y sacarCita provedor
+
+.accordion-list {
+    background: color($colors, light);
+    height: 100%;
+}
+.section {
+    background: #fff;
+    color: #000;
+    margin-bottom: 4px;
+}
+.section-active {
+    background: #00AEEF;
+    color: #fff;
+}
+
+.child {
+    background: #e8e7e6;
+    color: #000;
+    margin-bottom: 4px;
+}
+.child-item {
+    background: #f3f2f1;
+    padding: 10px;
+}
+.label {
+    margin: 0px;
+}
+.list {
+    margin-bottom: 4px;
+}
+.medio{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+//estilos para los botones del navbar en servicio y servicios
+
+.btnNavbar{
+    font-size:25px;
+    width:50px;
+    
+}
+
+//estilos para los logos de welcome y blancopage
+
+.logo_welcome{
+    text-align: center;
+    padding-top: 80px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+}
+
+/* ESTILOS DEL LOADING */
+.loading {
+
+    /* background: white; */
+    width: 100%; 
+    min-height: 100%;
+    position: absolute;
+    top: 0px; 
+    // opacity: 0.5;
+    // margin: 0%;
+    // background: #00AEEF;
+  }
+  
+  .loading img {
+    width: 70%;
+    height: 70%;
+    display: block;
+    margin-top: 70%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+
+

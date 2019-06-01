@@ -1,0 +1,852 @@
+<!--
+  Generated template for the PublicarServicioPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title *ngIf="!editar">Publicar servicio</ion-title>
+    <ion-title *ngIf="editar">Editar servicio</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<!-- <img src="{{ruta}}" alt="ND"> -->
+
+
+
+<!----------------------------------------FORMULARIO AGREGAR -------------------------------------------->
+
+<div *ngIf="!editar">
+
+<h2 class="h2">Selecciona imagenes</h2>
+<p> * Selecciona una o más imagenes para tu servicio.</p>
+
+<div id="LoadedImages" *ngIf="imagenes">
+  <ion-item *ngFor="let item of imagenes; let i = index">
+      <ion-icon name="close-circle" (click)="borrarFoto(i)"></ion-icon>
+      <img [src]="item.base64Image | youtube" class="imagenes">
+      <img *ngIf="editar" [src]="imgsEdit.ruta" class="imagenes">
+  </ion-item>
+</div>
+
+ <div class="galeria">
+        <ion-item>
+          <button ion-button icon-left round block (click)="openGalery()">
+            <ion-icon name="image"></ion-icon>
+            Abrir galeria</button>
+        </ion-item>
+      </div>
+          
+      <h2 class="h2">Selecciona un medico</h2>
+         <p>* Seleciona el medico que atendera este servicio.</p>
+
+         <div>
+            <ion-item>
+                <ion-label>Medicos</ion-label>
+                <ion-select multiple="false" (ionChange)="medicoSelect($event);" cancelText="cancelar">
+                  <ion-option *ngFor="let m of infMedicos;let i = index" [value]="m.medico_id"  >{{m.nombre}}</ion-option>     
+                </ion-select>
+              </ion-item>
+           
+         </div>
+
+
+         <h2 class="h2">Horario de atención</h2>
+         <p>* Seleciona un horario de atención o más, según la disponibilidad del servicio.</p>
+         <div class="horarios">
+            
+
+            
+           <div id="f1">
+             <ion-card>
+               <ion-card-header>
+                 <ion-item>Horario 1</ion-item>
+                 </ion-card-header>
+               <ion-card-content>
+             <p>Dias</p>
+             <ion-item >
+                 <ion-label>Dias</ion-label>
+                  <ion-select multiple="true" (ionChange)="diasF1($event);" [disabled]="f1d" cancelText="cancelar">
+                    <div *ngFor="let i of ds">
+                        <ion-option  [disabled]="i.dia.disponible === false" [value]="i.dia.nombre" >{{i.dia.nombre}}</ion-option>
+                    </div>
+                    <!-- <ion-option value="lunes">lunes</ion-option>
+                      <ion-option value="martes">martes</ion-option>
+                      <ion-option value="miércoles">miércoles</ion-option>
+                      <ion-option value="jueves">jueves</ion-option>
+                      <ion-option value="viernes">viernes</ion-option>
+                      <ion-option value="sábado">sábado</ion-option>
+                      <ion-option value="domingo">domingo</ion-option> -->
+                 </ion-select>
+               </ion-item>
+           
+             <!-- <p id="manana">Mañana</p> -->
+             <ion-item>
+             <ion-checkbox (ionChange)="mananaVer($event);" [disabled]="f1d"></ion-checkbox>
+              <ion-label id="manana">Mañana</ion-label>
+            </ion-item>
+             <ion-grid *ngIf="mananaH1" >
+               <ion-row>
+                 <ion-col>
+                   <ion-item>
+                   <ion-label>Desde</ion-label>
+                   <ion-select (ionChange)="mdesdef1($event);" [disabled]="f1d" cancelText="cancelar">
+                     <ion-option value="6:00">6 a.m</ion-option>
+                     <ion-option value="7:00">7 a.m</ion-option>
+                     <ion-option value="8:00">8 a.m</ion-option>
+                     <ion-option value="9:00">9 a.m</ion-option>
+                     <ion-option value="10:00">10 a.m</ion-option>
+                     <ion-option value="11:00">11 a.m</ion-option>
+                     <ion-option value="12:00">12 a.m</ion-option>
+                   </ion-select>
+                 </ion-item>
+                 </ion-col>
+                 <ion-col>
+                   <ion-item>
+                   <ion-label>Hasta</ion-label>
+                   <ion-select (ionChange)="mhastaf1($event);" [disabled]="f1d" cancelText="cancelar">
+                    <ion-option value="6:00">6 a.m</ion-option>
+                    <ion-option value="7:00">7 a.m</ion-option>
+                    <ion-option value="8:00">8 a.m</ion-option>
+                    <ion-option value="9:00">9 a.m</ion-option>
+                    <ion-option value="10:00">10 a.m</ion-option>
+                    <ion-option value="11:00">11 a.m</ion-option>
+                    <ion-option value="12:00">12 a.m</ion-option>
+                 </ion-select>
+                </ion-item>
+                 </ion-col>
+               </ion-row>
+             </ion-grid>
+           
+             <ion-item>
+                <ion-checkbox (ionChange)="tardeVer($event);" [disabled]="f1d"></ion-checkbox>
+                 <ion-label id="manana">Tarde</ion-label>
+               </ion-item>
+             <ion-grid *ngIf="tardeH1">
+                 <ion-row>
+                   <ion-col>
+                     <ion-item>
+                     <ion-label>Desde</ion-label>
+                     <ion-select (ionChange)="tdesdef1($event);" [disabled]="f1d" cancelText="cancelar">
+                         <ion-option value="13:00">1 p.m</ion-option>
+                         <ion-option value="14:00">2 p.m</ion-option>
+                         <ion-option value="15:00">3 p.m</ion-option>
+                         <ion-option value="16:00">4 p.m</ion-option>
+                         <ion-option value="17:00">5 p.m</ion-option>
+                         <ion-option value="18:00">6 p.m</ion-option>
+                         <ion-option value="19:00">7 p.m</ion-option>
+                     </ion-select>
+                   </ion-item>
+                   </ion-col>
+                   <ion-col>
+                     <ion-item>
+                     <ion-label>Hasta</ion-label>
+                  <ion-select (ionChange)="thastaf1($event);" [disabled]="f1d" cancelText="cancelar">
+                    <ion-option value="13:00">1 p.m</ion-option>
+                    <ion-option value="14:00">2 p.m</ion-option>
+                    <ion-option value="15:00">3 p.m</ion-option>
+                    <ion-option value="16:00">4 p.m</ion-option>
+                    <ion-option value="17:00">5 p.m</ion-option>
+                    <ion-option value="18:00">6 p.m</ion-option>
+                    <ion-option value="19:00">7 p.m</ion-option>
+                   </ion-select>
+                  </ion-item>
+                   </ion-col>
+                 </ion-row>
+               </ion-grid>
+             </ion-card-content>
+             </ion-card>
+         </div>
+
+
+       
+         <div id="f2" *ngIf="f2">
+             <ion-card>
+                 <ion-card-header>
+                   <ion-item>Horario 2</ion-item>
+                   </ion-card-header>
+                 <ion-card-content>
+             <p>Dias</p>
+             <ion-item>
+                 <ion-label>Dias</ion-label>
+                  <ion-select multiple="true" (ionChange)="diasF2($event);" [disabled]="f2d" cancelText="cancelar">
+                      <div *ngFor="let i of ds">
+                          <ion-option  [disabled]="i.dia.disponible === false" [value]="i.dia.nombre" >{{i.dia.nombre}}</ion-option>
+                      </div>
+                 </ion-select>
+               </ion-item>
+           
+               <ion-item>
+                  <ion-checkbox (ionChange)="mananaVerH2($event);" [disabled]="f2d"></ion-checkbox>
+                   <ion-label id="manana">Mañana</ion-label>
+                 </ion-item>
+             <ion-grid *ngIf="mananaH2">
+               <ion-row>
+                 <ion-col>
+                   <ion-item>
+                   <ion-label>Desde</ion-label>
+                   <ion-select (ionChange)="mdesdef2($event);" [disabled]="f2d" cancelText="cancelar">
+                    <ion-option value="6:00">6 a.m</ion-option>
+                    <ion-option value="7:00">7 a.m</ion-option>
+                    <ion-option value="8:00">8 a.m</ion-option>
+                    <ion-option value="9:00">9 a.m</ion-option>
+                    <ion-option value="10:00">10 a.m</ion-option>
+                    <ion-option value="11:00">11 a.m</ion-option>
+                    <ion-option value="12:00">12 a.m</ion-option>
+                   </ion-select>
+                 </ion-item>
+                 </ion-col>
+                 <ion-col>
+                   <ion-item>
+                   <ion-label>Hasta</ion-label>
+                <ion-select (ionChange)="mhastaf2($event);" [disabled]="f2d" cancelText="cancelar">
+                  <ion-option value="6:00">6 a.m</ion-option>
+                  <ion-option value="7:00">7 a.m</ion-option>
+                  <ion-option value="8:00">8 a.m</ion-option>
+                  <ion-option value="9:00">9 a.m</ion-option>
+                  <ion-option value="10:00">10 a.m</ion-option>
+                  <ion-option value="11:00">11 a.m</ion-option>
+                  <ion-option value="12:00">12 a.m</ion-option>
+                 </ion-select>
+                </ion-item>
+                 </ion-col>
+               </ion-row>
+             </ion-grid>
+             <ion-item>
+                <ion-checkbox (ionChange)="tardeVerH2($event);" [disabled]="f2d"></ion-checkbox>
+                 <ion-label id="manana">Tarde</ion-label>
+               </ion-item>
+             <ion-grid *ngIf="tardeH2">
+                 <ion-row>
+                   <ion-col>
+                     <ion-item>
+                     <ion-label>Desde</ion-label>
+                     <ion-select (ionChange)="tdesdef2($event);" [disabled]="f2d" cancelText="cancelar">
+                      <ion-option value="13:00">1 p.m</ion-option>
+                      <ion-option value="14:00">2 p.m</ion-option>
+                      <ion-option value="15:00">3 p.m</ion-option>
+                      <ion-option value="16:00">4 p.m</ion-option>
+                      <ion-option value="17:00">5 p.m</ion-option>
+                      <ion-option value="18:00">6 p.m</ion-option>
+                      <ion-option value="19:00">7 p.m</ion-option>
+                     </ion-select>
+                   </ion-item>
+                   </ion-col>
+                   <ion-col>
+                     <ion-item>
+                     <ion-label>Hasta</ion-label>
+                  <ion-select (ionChange)="thastaf2($event);" [disabled]="f2d" cancelText="cancelar">
+                    <ion-option value="13:00">1 p.m</ion-option>
+                    <ion-option value="14:00">2 p.m</ion-option>
+                    <ion-option value="15:00">3 p.m</ion-option>
+                    <ion-option value="16:00">4 p.m</ion-option>
+                    <ion-option value="17:00">5 p.m</ion-option>
+                    <ion-option value="18:00">6 p.m</ion-option>
+                    <ion-option value="19:00">7 p.m</ion-option>
+                   </ion-select>
+                  </ion-item>
+                   </ion-col>
+                 </ion-row>
+               </ion-grid>
+               </ion-card-content>
+               </ion-card>
+             </div>
+       
+       
+             <div id="f3" *ngIf="f3">
+                 <ion-card>
+                     <ion-card-header>
+                       <ion-item>Horario 3</ion-item>
+                       </ion-card-header>
+                     <ion-card-content>
+                 <p>Dias</p>
+                 <ion-item>
+                     <ion-label>Dias</ion-label>
+                      <ion-select multiple="true" (ionChange)="diasF3($event);" cancelText="cancelar">
+                          <div *ngFor="let i of ds">
+                              <ion-option  [disabled]="i.dia.disponible === false" [value]="i.dia.nombre" >{{i.dia.nombre}}</ion-option>
+                          </div>
+                     </ion-select>
+                   </ion-item>
+               
+                   <ion-item>
+                      <ion-checkbox (ionChange)="mananaVerH3($event);" [disabled]="f3d"></ion-checkbox>
+                       <ion-label id="manana">Mañana</ion-label>
+                     </ion-item>
+                 <ion-grid *ngIf="mananaH3">
+                   <ion-row>
+                     <ion-col>
+                       <ion-item>
+                       <ion-label>Desde</ion-label>
+                       <ion-select (ionChange)="mdesdef3($event);" cancelText="cancelar">
+                        <ion-option value="6:00">6 a.m</ion-option>
+                        <ion-option value="7:00">7 a.m</ion-option>
+                        <ion-option value="8:00">8 a.m</ion-option>
+                        <ion-option value="9:00">9 a.m</ion-option>
+                        <ion-option value="10:00">10 a.m</ion-option>
+                        <ion-option value="11:00">11 a.m</ion-option>
+                        <ion-option value="12:00">12 a.m</ion-option>
+                       </ion-select>
+                     </ion-item>
+                     </ion-col>
+                     <ion-col>
+                       <ion-item>
+                       <ion-label>Hasta</ion-label>
+                    <ion-select (ionChange)="mhastaf3($event);" cancelText="cancelar">
+                      <ion-option value="6:00">6 a.m</ion-option>
+                      <ion-option value="7:00">7 a.m</ion-option>
+                      <ion-option value="8:00">8 a.m</ion-option>
+                      <ion-option value="9:00">9 a.m</ion-option>
+                      <ion-option value="10:00">10 a.m</ion-option>
+                      <ion-option value="11:00">11 a.m</ion-option>
+                      <ion-option value="12:00">12 a.m</ion-option>
+                     </ion-select>
+                    </ion-item>
+                     </ion-col>
+                   </ion-row>
+                 </ion-grid>
+                 <ion-item>
+                    <ion-checkbox (ionChange)="tardeVerH3($event);" [disabled]="f3d"></ion-checkbox>
+                     <ion-label id="manana">Tarde</ion-label>
+                   </ion-item>
+                 <ion-grid *ngIf="tardeH3">
+                     <ion-row>
+                       <ion-col>
+                         <ion-item>
+                         <ion-label>Desde</ion-label>
+                         <ion-select (ionChange)="tdesdef3($event);" cancelText="cancelar">
+                          <ion-option value="13:00">1 p.m</ion-option>
+                          <ion-option value="14:00">2 p.m</ion-option>
+                          <ion-option value="15:00">3 p.m</ion-option>
+                          <ion-option value="16:00">4 p.m</ion-option>
+                          <ion-option value="17:00">5 p.m</ion-option>
+                          <ion-option value="18:00">6 p.m</ion-option>
+                          <ion-option value="19:00">7 p.m</ion-option>  
+                         </ion-select>
+                       </ion-item>
+                       </ion-col>
+                       <ion-col>
+                         <ion-item>
+                         <ion-label>Hasta</ion-label>
+                      <ion-select (ionChange)="thastaf3($event);" cancelText="cancelar">
+                        <ion-option value="13:00">1 p.m</ion-option>
+                        <ion-option value="14:00">2 p.m</ion-option>
+                        <ion-option value="15:00">3 p.m</ion-option>
+                        <ion-option value="16:00">4 p.m</ion-option>
+                        <ion-option value="17:00">5 p.m</ion-option>
+                        <ion-option value="18:00">6 p.m</ion-option>
+                        <ion-option value="19:00">7 p.m</ion-option>
+                       </ion-select>
+                      </ion-item>
+                       </ion-col>
+                     </ion-row>
+                   </ion-grid>
+                   </ion-card-content>
+                   </ion-card>
+                 </div>
+       <ion-item>
+         <button ion-button round block icon-left (click)="agregarHorario()" [disabled]="!dis">
+           <ion-icon name="add"></ion-icon>
+           Agregar otro horario</button>
+           <button *ngIf="eliminar" ion-button round block icon-left (click)="eliminarHorario()" color="danger">
+            <ion-icon name="close"></ion-icon>
+            Eliminar Horario</button>
+       </ion-item>
+      
+        
+     
+           
+         </div>
+
+  <form [formGroup]="datos" (ngSubmit)="registrar()"  novalidate>
+ 
+    <div class="info">
+        <h2>¿Donde vas a prestar tu servicio?</h2>
+        <ion-item>
+            <ion-label>Departamento</ion-label>
+            <ion-select multiple="false" (ionChange)="departamentoSelect($event);" cancelText="cancelar">
+              <ion-option *ngFor="let dpt of dptms;let i = index" [value]="dpt.id_departamento"  >{{dpt.nombre}}</ion-option>     
+            </ion-select>
+          </ion-item>
+          
+           <ion-item>
+            <ion-label>Municipio</ion-label>
+            <ion-select multiple="false" (ionChange)="municipioSelect($event);" cancelText="cancelar">
+                <ion-option *ngFor="let mnp of mncps;let i = index" [value]="mnp.id_municipio"  >{{mnp.nombre}}</ion-option>
+              
+            </ion-select>
+          </ion-item>
+
+         
+      </div>
+
+    <div class="info">
+        <h2>Cuentanos más !</h2>
+        <ion-item>
+          <ion-label>Categoria</ion-label>
+          <ion-select multiple="false" (ionChange)="categoriaSelect($event);" class="selectCategoria" cancelText="cancelar">
+            <ion-option *ngFor="let cate of ctgas;let i = index" [value]="cate.id_categoria"  >{{cate.nombre}}</ion-option>     
+          </ion-select>
+        </ion-item>
+          <!-- <ion-item>
+            <input type="text" formControlName="id_usr">
+          </ion-item> -->
+          <ion-item>
+              <ion-label floating>
+                
+                Nombre servicio</ion-label>
+              <ion-input type="text" formControlName="nombre"></ion-input>
+             
+            </ion-item>
+            <ion-item *ngIf="datos.get('nombre').errors && datos.get('nombre').dirty">
+              <p color="danger" ion-text *ngIf="datos.get('nombre').hasError('required')">* El campo es requerido</p>
+              <p color="danger" ion-text *ngIf="datos.get('nombre').hasError('minlength')">Cantidad minima de caracteres (4)</p>
+              <p color="danger" ion-text *ngIf="datos.get('nombre').hasError('maxlength')">Cantidad maxima de caracteres (60)</p>
+            </ion-item>
+          <ion-item>
+            <ion-label floating>
+              Duracion aprox. cita en Mins.</ion-label>
+            <ion-input type="number" formControlName="duracion"></ion-input>
+          </ion-item>
+          
+          <ion-item *ngIf="datos.get('duracion').errors && datos.get('duracion').dirty">
+            <p color="danger" ion-text *ngIf="datos.get('duracion').hasError('required')">* El campo es requerido</p>
+            <p color="danger" ion-text *ngIf="datos.get('duracion').hasError('max')">Duración maxima en minutos (60)</p>
+            <p color="danger" ion-text *ngIf="datos.get('duracion').hasError('min')">Duración minima en minutos (15)</p>
+            <p color="danger" ion-text *ngIf="datos.get('duracion').hasError('pattern')">* El campo solo acepta numeros</p>
+          </ion-item>
+          <ion-item>
+            <ion-label>Max citas / hora, es el número maximo de citas que puedes atender en una hora</ion-label>
+            <ion-select multiple="false" (ionChange)="maxCitasSelect($event);" cancelText="cancelar">
+              
+                <ion-option value="1">1</ion-option>
+                <ion-option value="2">2</ion-option>
+                <ion-option value="3">3</ion-option>
+                <ion-option value="4">4</ion-option>
+                <ion-option value="5">5</ion-option>
+              
+            </ion-select>
+          </ion-item>
+          <ion-item *ngIf="maxCitasCofirm">
+            <p  style="color:red">* Este campo es requerido</p>
+          </ion-item>
+          
+          <ion-item>
+              <ion-label floating>Precio a particulares</ion-label>
+              <ion-input type="number" formControlName="precio"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="datos.get('precio').errors && datos.get('precio').dirty">
+              <p color="danger" ion-text *ngIf="datos.get('precio').hasError('required')">* El campo es requerido</p>
+              <p color="danger" ion-text *ngIf="datos.get('precio').hasError('min')">Cantidad minima ($0)</p>
+              <p color="danger" ion-text *ngIf="datos.get('precio').hasError('pattern')">* El campo solo acepta numeros</p>
+            </ion-item>
+            <ion-item>
+              <ion-label floating>Dirección</ion-label>
+              <ion-input type="text" formControlName="direccion"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="datos.get('direccion').errors && datos.get('direccion').dirty">
+              <p color="danger" ion-text *ngIf="datos.get('direccion').hasError('required')">* El campo es requerido</p>
+              <p color="danger" ion-text *ngIf="datos.get('direccion').hasError('maxlength')">Cantidad maxima de caracteres (60)</p>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Descuento prevenir, de 10 a 100 sin (%)</ion-label>
+                <ion-input type="number" formControlName="descuento"></ion-input>
+              </ion-item>
+              <ion-item *ngIf="datos.get('descuento').errors && datos.get('descuento').dirty">
+                <p color="danger" ion-text *ngIf="datos.get('descuento').hasError('min')">Cantidad minima (0)</p>
+                <p color="danger" ion-text *ngIf="datos.get('descuento').hasError('max')">Cantidad maxima (100)</p>
+                <p color="danger" ion-text *ngIf="datos.get('descuento').hasError('pattern')">* El campo solo acepta numeros</p>
+              </ion-item>
+              <ion-item>
+                <ion-label floating>link video - www.youtube.com</ion-label>
+                <ion-input type="text" formControlName="video"></ion-input>
+              </ion-item>
+              <ion-item>
+                  <ion-label floating>Descripción del servicio</ion-label>
+                  <ion-textarea class="txt_area" formControlName="descripcion"></ion-textarea>
+              </ion-item>
+                <ion-item *ngIf="datos.get('descripcion').errors && datos.get('descripcion').dirty">
+                    <p color="danger" ion-text *ngIf="datos.get('descripcion').hasError('required')">* El campo es requerido</p>
+                  <p color="danger" ion-text *ngIf="datos.get('descripcion').hasError('minlength')">Cantidad minima caracteres (40)</p>
+                </ion-item>
+      </div>
+     
+      <div class="logo">
+      <ion-item>
+        <img src="/assets/imgs/logo-grande-negro.png" alt="">
+      </ion-item>
+    </div>
+      <ion-item ion-col col-12>
+          <ion-label>Acepto terminos y condiciones</ion-label>
+          <ion-checkbox required formControlName="check"></ion-checkbox>
+        </ion-item>
+    
+        <!-- [disabled]="!this.datos.valid" -->
+      <ion-item>
+          <button *ngIf="!editar" ion-button icon-left block round  [disabled]="!this.datos.valid">
+            <ion-icon name="send"></ion-icon>
+            Registrar servicio
+          </button>
+          <button *ngIf="editar" ion-button icon-left block round [disabled]="!this.datos.valid">
+            <ion-icon name="send"></ion-icon>
+           Editar servicio
+          </button>
+         
+        </ion-item>
+  </form>
+
+</div>
+
+  <!---------------------------------------- FORMULARIO EDITAR -------------------------------------------->
+
+  <div *ngIf="editar">
+
+  <ion-segment [(ngModel)]="mymodel">
+      <ion-segment-button class="segment"value="segment1">
+        <p class="p">Información</p> 
+      </ion-segment-button>
+      <!-- <ion-segment-button  class="segment" value="segment2">
+      <p class="p">Horarios</p> 
+      </ion-segment-button> -->
+      <ion-segment-button  class="segment" value="segment2">
+          <p class="p">Imagenes</p> 
+      </ion-segment-button>
+  </ion-segment>
+  
+  <div [ngSwitch]="mymodel">
+  
+    <div *ngSwitchCase="'segment1'" >
+    
+        <form [formGroup]="datosEdit" (ngSubmit)="editarServices()"  novalidate>
+ 
+            <div class="info2">
+                <h2>¿Donde vas a prestar tu servicio?</h2>
+                <ion-item>
+                    <ion-label>Departamento</ion-label>
+                    <ion-select multiple="false" (ionChange)="departamentoSelect($event);" cancelText="cancelar">
+                      <ion-option *ngFor="let dpt of dptms;let i = index" [selected]="i == posisionDtp" [value]="dpt.id_departamento"  >{{dpt.nombre}}</ion-option>     
+                    </ion-select>
+                  </ion-item>
+                  
+                   <ion-item>
+                    <ion-label>Municipio</ion-label>
+                    <ion-select multiple="false" (ionChange)="municipioSelect($event);" cancelText="cancelar">
+                        <ion-option *ngFor="let mnp of mncps;let i = index" [selected]="i == posisionMnp" [value]="mnp.id_municipio"  >{{mnp.nombre}}</ion-option>
+                      
+                    </ion-select>
+                  </ion-item>
+        
+                 
+              </div>
+        
+            <div class="info">
+                <h2>Cuentanos más !</h2>
+                <ion-item>
+                  <ion-label>Categoria</ion-label>
+                  <ion-select multiple="false" (ionChange)="categoriaSelect($event);" class="selectCategoria">
+                    <ion-option *ngFor="let cate of ctgas;let i = index" [selected]="i == posisionCtga" [value]="cate.id_categoria"  >{{cate.nombre}}</ion-option>     
+                  </ion-select>
+                </ion-item>
+                
+                  <ion-item>
+                      <ion-label floating>
+                        
+                        Nombre servicio</ion-label>
+                      <ion-input type="text" formControlName="nombre"></ion-input>
+                     
+                    </ion-item>
+                    <ion-item *ngIf="datosEdit.get('nombre').errors && datos.get('nombre').dirty">
+                      <p color="danger" ion-text *ngIf="datosEdit.get('nombre').hasError('required')">* El campo es requerido</p>
+                      <p color="danger" ion-text *ngIf="datosEdit.get('nombre').hasError('minlength')">Cantidad minima de caracteres (4)</p>
+                      <p color="danger" ion-text *ngIf="datosEdit.get('nombre').hasError('maxlength')">Cantidad maxima de caracteres (60)</p>
+                    </ion-item>
+                  <ion-item>
+                    <ion-label floating>
+                      Duracion aprox. cita en Mins.</ion-label>
+                    <ion-input type="number" formControlName="duracion"></ion-input>
+                  </ion-item>
+                  
+                  <ion-item *ngIf="datosEdit.get('duracion').errors && datosEdit.get('duracion').dirty">
+                    <p color="danger" ion-text *ngIf="datosEdit.get('duracion').hasError('required')">* El campo es requerido</p>
+                    <p color="danger" ion-text *ngIf="datosEdit.get('duracion').hasError('max')">Duración maxima en minutos (60)</p>
+                    <p color="danger" ion-text *ngIf="datosEdit.get('duracion').hasError('min')">Duración minima en minutos (15)</p>
+                    <p color="danger" ion-text *ngIf="datosEdit.get('duracion').hasError('pattern')">* El campo solo acepta numeros</p>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-label>Max citas / hora, es el número maximo de citas que puedes atender en una hora</ion-label>
+                    <ion-select multiple="false" (ionChange)="maxCitasSelect($event);">
+                      
+                      <ion-option *ngFor="let m of mCitas, let i = index" [selected]="i == posisionMaxCitas" [value]="m.pos">{{m.pos}}</ion-option>
+                      
+                    
+          
+                    </ion-select>
+                  </ion-item>
+                  <ion-item *ngIf="maxCitasCofirm">
+                    <p  style="color:red">* Este campo es requerido</p>
+                  </ion-item>
+                  
+                  <ion-item>
+                      <ion-label floating>Precio a particulares</ion-label>
+                      <ion-input type="number" formControlName="precio"></ion-input>
+                    </ion-item>
+
+                    <ion-item *ngIf="datosEdit.get('precio').errors && datosEdit.get('precio').dirty">
+                      <p color="danger" ion-text *ngIf="datosEdit.get('precio').hasError('required')">* El campo es requerido</p>
+                      <p color="danger" ion-text *ngIf="datosEdit.get('precio').hasError('min')">Cantidad minima ($0)</p>
+                      <p color="danger" ion-text *ngIf="datosEdit.get('precio').hasError('pattern')">* El campo solo acepta numeros</p>
+                    </ion-item>
+
+                    <ion-item>
+                      <ion-label floating>Dirección</ion-label>
+                      <ion-input type="text" formControlName="direccion"></ion-input>
+                    </ion-item>
+
+                    <ion-item *ngIf="datosEdit.get('direccion').errors && datosEdit.get('direccion').dirty">
+                      <p color="danger" ion-text *ngIf="datosEdit.get('direccion').hasError('required')">* El campo es requerido</p>
+                      <p color="danger" ion-text *ngIf="datosEdit.get('direccion').hasError('maxlength')">Cantidad maxima de caracteres (60)</p>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label floating>Descuento prevenir, de 10 a 100 sin (%)</ion-label>
+                        <ion-input type="number" formControlName="descuento"></ion-input>
+                      </ion-item>
+
+                      <ion-item *ngIf="datosEdit.get('descuento').errors && datosEdit.get('descuento').dirty">
+                        <p color="danger" ion-text *ngIf="datosEdit.get('descuento').hasError('min')">Cantidad minima (0)</p>
+                        <p color="danger" ion-text *ngIf="datosEdit.get('descuento').hasError('max')">Cantidad maxima (100)</p>
+                        <p color="danger" ion-text *ngIf="datosEdit.get('descuento').hasError('pattern')">* El campo solo acepta numeros</p>
+                      </ion-item>
+
+                      <ion-item>
+                        <ion-label floating>link video - www.youtube.com</ion-label>
+                        <ion-input type="text" formControlName="video"></ion-input>
+                      </ion-item>
+                      <ion-item>
+                          <ion-label floating>Descripción del servicio</ion-label>
+                          <ion-textarea class="txt_area" formControlName="descripcion"></ion-textarea>
+                      </ion-item>
+
+                        <ion-item *ngIf="datosEdit.get('descripcion').errors && datosEdit.get('descripcion').dirty">
+                            <p color="danger" ion-text *ngIf="datosEdit.get('descripcion').hasError('required')">* El campo es requerido</p>
+                          <p color="danger" ion-text *ngIf="datosEdit.get('descripcion').hasError('minlength')">Cantidad minima caracteres (40)</p>
+                        </ion-item>
+              </div>
+
+              <ion-item>
+                  <button *ngIf="editar" ion-button icon-left block round [disabled]="!this.datosEdit.valid">
+                    <ion-icon name="send"></ion-icon>
+                   Guardar Información
+                  </button>
+                 
+                </ion-item>
+             
+              <div class="logo">
+              <ion-item>
+                <img src="/assets/imgs/logo-grande-negro.png" alt="">
+              </ion-item>
+            </div>
+             
+            
+                <!-- [disabled]="!this.datos.valid" -->
+              
+          </form>
+
+     </div>
+    <div *ngSwitchCase="'segment2'">
+     
+      <div class="galeria2">
+
+      <h2 class="h2">Selecciona imagenes</h2>
+      <p>* Imagenes actuales.</p>
+       
+      <div id="LoadedImages" *ngIf="imgs">
+        <ion-item *ngFor="let item of imgs; let i = index">
+
+            <ion-icon name="close-circle" (click)="borrarFotoEdit(i,item.id,item.ruta)"></ion-icon>
+            <!-- <img [src]="item.base64Image | youtube" class="imagenes"> -->
+            <img  [src]="url+item.ruta | youtube" class="imagenes">
+        </ion-item>
+      </div>
+
+      <p> * Selecciona nuevas imagenes para tu servicio.</p>
+      
+      <div id="LoadedImages" *ngIf="imagenes">
+        <ion-item *ngFor="let item of imagenes; let i = index">
+
+            <ion-icon name="close-circle" (click)="borrarFoto(i)"></ion-icon>
+            <img [src]="item.base64Image | youtube" class="imagenes">
+            <!-- <img  [src]="url+item.ruta | youtube" class="imagenes"> -->
+        </ion-item>
+      </div>
+      
+       <div class="galeria">
+             <ion-item>
+                <button ion-button icon-left round block (click)="openGaleryEdit()">
+                  <ion-icon name="image"></ion-icon>
+                  Abrir galeria</button>
+            
+                  <button ion-button icon-left round block color="secondary" (click)="guardarImgs()" 
+                  [disabled]="imagenes.length == 0">
+                    <ion-icon name="add"></ion-icon>
+                    Guardar cambios</button>
+              </ion-item>
+                
+            </div>
+                
+      </div>
+  </div>
+
+</div>
+
+</div>
+</ion-content>
+
+<!-- <div *ngSwitchCase="'segment2'">
+
+
+      <div class="horariosEdit">
+
+        <ion-item>
+          <button ion-button color="secondary" block round icon-left (click)="agregarHorarioEdit()" [disabled]="horarios.length == 3">
+            <ion-icon name="add"></ion-icon>
+            Agregar Horario</button>
+        </ion-item>
+
+        <div id="f1">
+          <ion-card>
+            <ion-card-header>
+              <ion-item>Horario 1</ion-item>
+              </ion-card-header>
+            <ion-card-content>
+          <p>Dias</p>
+          <ion-item >
+              <ion-label>Dias</ion-label>
+               <ion-select multiple="true" (ionChange)="diasF1($event);" [disabled]="f1d">
+                 <div *ngFor="let i of ds">
+                     <ion-option  [disabled]="i.dia.disponible === false" [value]="i.dia.nombre" >{{i.dia.nombre}}</ion-option>
+                 </div>
+                  <ion-option value="lunes">lunes</ion-option>
+                   <ion-option value="martes">martes</ion-option>
+                   <ion-option value="miércoles">miércoles</ion-option>
+                   <ion-option value="jueves">jueves</ion-option>
+                   <ion-option value="viernes">viernes</ion-option>
+                   <ion-option value="sábado">sábado</ion-option>
+                   <ion-option value="domingo">domingo</ion-option>
+              </ion-select>
+            </ion-item>
+        
+           <p id="manana">Mañana</p> 
+          <ion-item>
+          <ion-checkbox (ionChange)="mananaVer($event);" [disabled]="f1d"></ion-checkbox>
+           <ion-label id="manana">Mañana</ion-label>
+         </ion-item>
+          <ion-grid *ngIf="mananaH1" >
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                <ion-label>Desde</ion-label>
+                <ion-select (ionChange)="mdesdef1($event);" [disabled]="f1d">
+                  <ion-option value="6:00">6 a.m</ion-option>
+                  <ion-option value="7:00">7 a.m</ion-option>
+                  <ion-option value="8:00">8 a.m</ion-option>
+                  <ion-option value="9:00">9 a.m</ion-option>
+                  <ion-option value="10:00">10 a.m</ion-option>
+                  <ion-option value="11:00">11 a.m</ion-option>
+                  <ion-option value="12:00">12 a.m</ion-option>
+                </ion-select>
+              </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                <ion-label>Hasta</ion-label>
+                <ion-select (ionChange)="mhastaf1($event);" [disabled]="f1d">
+                 <ion-option value="6:00">6 a.m</ion-option>
+                 <ion-option value="7:00">7 a.m</ion-option>
+                 <ion-option value="8:00">8 a.m</ion-option>
+                 <ion-option value="9:00">9 a.m</ion-option>
+                 <ion-option value="10:00">10 a.m</ion-option>
+                 <ion-option value="11:00">11 a.m</ion-option>
+                 <ion-option value="12:00">12 a.m</ion-option>
+              </ion-select>
+             </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        
+          <ion-item>
+             <ion-checkbox (ionChange)="tardeVer($event);" [disabled]="f1d"></ion-checkbox>
+              <ion-label id="manana">Tarde</ion-label>
+            </ion-item>
+          <ion-grid *ngIf="tardeH1">
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                  <ion-label>Desde</ion-label>
+                  <ion-select (ionChange)="tdesdef1($event);" [disabled]="f1d">
+                      <ion-option value="13:00">1 p.m</ion-option>
+                      <ion-option value="14:00">2 p.m</ion-option>
+                      <ion-option value="15:00">3 p.m</ion-option>
+                      <ion-option value="16:00">4 p.m</ion-option>
+                      <ion-option value="17:00">5 p.m</ion-option>
+                      <ion-option value="18:00">6 p.m</ion-option>
+                      <ion-option value="19:00">7 p.m</ion-option>
+                  </ion-select>
+                </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                  <ion-label>Hasta</ion-label>
+               <ion-select (ionChange)="thastaf1($event);" [disabled]="f1d">
+                 <ion-option value="13:00">1 p.m</ion-option>
+                 <ion-option value="14:00">2 p.m</ion-option>
+                 <ion-option value="15:00">3 p.m</ion-option>
+                 <ion-option value="16:00">4 p.m</ion-option>
+                 <ion-option value="17:00">5 p.m</ion-option>
+                 <ion-option value="18:00">6 p.m</ion-option>
+                 <ion-option value="19:00">7 p.m</ion-option>
+                </ion-select>
+               </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+          </ion-card>
+      </div>
+
+
+
+          <h2>Horario(s)</h2>
+      <ion-card *ngFor="let h of horarios, let i = index">
+        
+        
+        <ion-card-header>
+          Horario {{i+1}}
+        </ion-card-header>
+        <ion-card-content>
+          <p><strong>Dias :</strong></p>
+          <p *ngFor="let d of h.dias">{{d.dia}}</p>
+          <p><strong>Mañana</strong> </p>
+          <p> Desde : {{h.de_maniana}} a.m</p>
+          <p> Hasta :{{h.a_maniana}} a.m</p>
+          <p><strong>Tarde </strong> </p>
+          <p> Desde :  {{h.de_tarde}} p.m</p>
+          <p> Hasta :   {{h.a_tarde}} p.m</p>
+          <ion-item>
+              <button ion-button color="danger" block round icon-left (click)="eliminarHorarioEdit(h.id_horario,h.dias)"><ion-icon name="trash" ></ion-icon> eliminar</button>
+          </ion-item>
+        </ion-card-content>   
+      </ion-card>
+    </div>
+
+    </div>  -->
+
+    <div class="loading" *ngIf="load">
+      <img src="/assets/imgs/pulso.gif" alt="">
+    </div> 

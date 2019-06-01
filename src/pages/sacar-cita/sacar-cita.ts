@@ -733,6 +733,7 @@ export class SacarCitaPage {
       contacto : ['',[Validators.required , Validators.pattern('[0-9]*')]],
       nombreMascota:['',[Validators.required,Validators.minLength(2), Validators.maxLength(50)]],
       especie:['',[Validators.required,Validators.minLength(2), Validators.maxLength(50)]], 
+      correo : ['', [Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
     });
   }
 
@@ -843,7 +844,7 @@ export class SacarCitaPage {
 
       let info = {color:"#07a9df",start:fecha, mascota:true, servicio:this.citaProvedor.id_servicios,existe:bol, usuario:this.datosMascota.value.identificacion, nombres:this.datosMascota.value.nombres,
       apellidos : this.datosMascota.value.apellidos, contacto:this.datosMascota.value.contacto, nombreMascota:this.datosMascota.value.nombreMascota, especie:this.datosMascota.value.especie,
-      esterilizado:this.esterilizadoMascota , sexo : this.sexoMascota};
+      esterilizado:this.esterilizadoMascota , sexo : this.sexoMascota , correo : this.datosMascota.value.correo };
 
       console.log(info);
 

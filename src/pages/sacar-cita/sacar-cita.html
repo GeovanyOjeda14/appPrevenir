@@ -291,6 +291,17 @@
     </ion-item>
 
     <ion-item>
+        <ion-label>
+          <ion-icon name="mail"></ion-icon>
+        </ion-label>
+        <ion-input type="email" placeholder="Correo electronico" formControlName="correo"></ion-input>
+      </ion-item> 
+      <ion-item *ngIf="datosMascota.get('correo').errors && datosMascota.get('correo').dirty">
+        <p color="danger" ion-text *ngIf="datosMascota.get('correo').hasError('required')">* El campo es requerido</p>
+        <p color="danger" ion-text *ngIf="datosMascota.get('correo').hasError('pattern') ">* El tipo de email no es valido.</p>
+    </ion-item>
+
+    <ion-item>
       <ion-label>
         <ion-icon name="paw"></ion-icon>
       </ion-label>
